@@ -1,0 +1,625 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense,NumberOfChildren,OriginalPostId,,Justification
+22907231,1,31971697,,7/4/14 8:28,,1894,1508990,"<p>I am trying to build a backup and restore solution for the Docker containers that we work with.</p>
+
+<p>I have Docker base image that I have created, <code>ubuntu:base</code>, and do not want have to rebuild it each time with a Docker file to add files to it.</p>
+
+<p>I want to create a script that runs from the host machine and creates a new container using the <code>ubuntu:base</code> Docker image and then copies files into that container.</p>
+
+<p>How can I copy files from the host to the container?</p>
+",3001829,,3257186,,14/10/20 12:57,26/5/21 21:56,How to copy files from host to Docker container?,<docker><docker-container>,45,4,555,,,CC BY-SA 4.0,5,22907231,,
+24319662,1,24326540,,20/6/14 3:54,,2075,1224162,"<p>So I have a Nginx running inside a docker container, I have a mysql running on localhost, I want to connect to the MySql from within my Nginx. The MySql is running on localhost and not exposing a port to the outside world, so its bound on localhost, not bound on the ip address of the machine.</p>
+
+<p>Is there any way to connect to this MySql or any other program on localhost from within this docker container?</p>
+
+<p>This question is different from ""How to get the IP address of the docker host from inside a docker container"" due to the fact that the IP address of the docker host could be the public IP or the private IP in the network which may or may not be reachable from within the docker container (I mean public IP if hosted at AWS or something). Even if you have the IP address of the docker host it does not mean you can connect to docker host from within the container given that IP address as your Docker network may be overlay, host, bridge, macvlan, none etc which restricts the reachability of that IP address.</p>
+",78000,,78000,,9/11/19 12:21,26/5/21 3:12,"From inside of a Docker container, how do I connect to the localhost of the machine?",<nginx><docker><reverse-proxy><docker-networking>,34,5,858,,,CC BY-SA 4.0,58,24319662,,Networking is a common issue observed when using docker
+22049212,1,22050116,,26/2/14 17:46,,2132,1146262,"<p>I'm thinking of using Docker to build my dependencies on a Continuous Integration (CI) server, so that I don't have to install all the runtimes and libraries on the agents themselves. </p>
+
+<p>To achieve this I would need to copy the build artifacts that are built inside the container back into the host. Is that possible?</p>
+",2668128,,10907864,,2/12/20 22:30,21/4/21 9:10,Docker: Copying files from Docker container to host,<docker><docker-container><file-copying>,21,4,487,,,CC BY-SA 4.0,2,22049212,,This can be incorporated into one of the tasks
+23439126,1,,,3/5/14 1:12,,732,1087358,"<p>I am trying to mount a host directory into a Docker container so that any updates done on the host is reflected into the Docker containers.</p>
+
+<p>Where am I doing something wrong. Here is what I did:</p>
+
+<pre><code>kishore$ cat Dockerfile
+
+FROM ubuntu:trusty
+RUN apt-get update
+RUN apt-get -y install git curl vim
+CMD [""/bin/bash""]
+WORKDIR /test_container
+VOLUME [""/test_container""]
+</code></pre>
+
+<p><pre><code>kishore$ tree
+.
+├── Dockerfile
+└── main_folder
+    ├── tfile1.txt
+    ├── tfile2.txt
+    ├── tfile3.txt
+    └── tfile4.txt</p>
+
+<p>1 directory, 5 files
+kishore$ pwd
+/Users/kishore/tdock
+</code></pre><pre><code>kishore$ docker build --tag=k3_s3:latest .</p>
+
+<pre><code>Uploading context 7.168 kB
+Uploading context
+Step 0 : FROM ubuntu:trusty
+ ---&gt; 99ec81b80c55
+Step 1 : RUN apt-get update
+ ---&gt; Using cache
+ ---&gt; 1c7282005040
+Step 2 : RUN apt-get -y install git curl vim
+ ---&gt; Using cache
+ ---&gt; aed48634e300
+Step 3 : CMD [""/bin/bash""]
+ ---&gt; Running in d081b576878d
+ ---&gt; 65db8df48595
+Step 4 : WORKDIR /test_container
+ ---&gt; Running in 5b8d2ccd719d
+ ---&gt; 250369b30e1f
+Step 5 : VOLUME [""/test_container""]
+ ---&gt; Running in 72ca332d9809
+ ---&gt; 163deb2b1bc5
+Successfully built 163deb2b1bc5
+Removing intermediate container b8bfcb071441
+Removing intermediate container d081b576878d
+Removing intermediate container 5b8d2ccd719d
+Removing intermediate container 72ca332d9809
+</code></pre>
+
+<p>kishore$ docker run -d -v /Users/kishore/main_folder:/test_container k3_s3:latest
+<code>c9f9a7e09c54ee1c2cc966f15c963b4af320b5203b8c46689033c1ab8872a0ea</code></code></pre><pre><code>kishore$ docker run -i -t k3_s3:latest /bin/bash</p>
+
+<pre><code>root@0f17e2313a46:/test_container# ls -al
+total 8
+drwx------  2 root root 4096 Apr 29 05:15 .
+drwxr-xr-x 66 root root 4096 Apr 29 05:15 ..
+</code></pre>
+
+<p>root@0f17e2313a46:/test_container# exit
+exit</code></pre><pre><code>kishore$ docker -v
+Docker version 0.9.1, build 867b2a9</code></pre></p>
+
+<ul>
+<li>I don't know how to check boot2docker version</li>
+</ul>
+
+<p>Questions, issues facing:</p>
+
+<ol>
+<li>How do I need to link the main_folder to the test_container folder present inside the docker container?</li>
+<li>I need to make this automatically. How do I to do that without really using the <code>run -d -v</code> command?</li>
+<li>What happens if the boot2docker crashes? Where are the Docker files stored (apart from Dockerfile)?</li>
+</ol>
+",2171928,,321731,,27/6/19 21:01,20/12/20 0:45,How to mount a host directory in a Docker container,<docker><mount><boot2docker>,25,2,173,,,CC BY-SA 4.0,2,23439126,,
+30494050,1,30494145,,27/5/15 22:17,,964,1033237,"<p>I'm new to Docker, and it's unclear how to access an external database from a container. Is the best way to hard-code in the connection string?</p>
+
+<pre><code># Dockerfile
+ENV DATABASE_URL amazon:rds/connection?string
+</code></pre>
+",824377,,4574309,,13/6/19 9:59,18/6/21 1:44,How do I pass environment variables to Docker containers?,<docker><environment-variables><dockerfile>,14,0,174,,,CC BY-SA 3.0,2,30494050,,
+19234831,1,25978888,,7/10/13 21:08,,944,946034,"<p>I managed to find the containers under directory <code>/var/lib/docker/containers</code>, but I can't find the images.</p>
+
+<p>What are the directories and files under <code>/var/lib/docker</code>?</p>
+",714179,,63550,,29/3/17 16:26,26/5/21 15:51,Where are Docker images stored on the host machine?,<docker><docker-image>,29,1,271,,,CC BY-SA 3.0,4,19234831,,
+16047306,1,16048358,,16/4/13 21:19,,3982,799487,"<p>I keep rereading <a href=""https://docs.docker.com/"" rel=""noreferrer"">the Docker documentation</a> to try to understand the difference between Docker and a full VM. How does it manage to provide a full filesystem, isolated networking environment, etc. without being as heavy?</p>
+
+<p>Why is deploying software to a Docker image (if that's the right term) easier than simply deploying to a consistent production environment?</p>
+",109549,,63550,,28/8/18 20:04,26/11/20 15:53,How is Docker different from a virtual machine?,<docker><containers><virtual-machine><virtualization>,21,9,1879,,,CC BY-SA 4.0,6,16047306,,
+23935141,1,23938978,,29/5/14 13:57,,1700,790303,"<p>How do I transfer a Docker image from one machine to another one without using a repository, no matter private or public?</p>
+
+<p>I create my own image in VirtualBox, and when it is finished I try to deploy to other machines to have real usage.</p>
+
+<p>Since it is based on my own based image (like Red Hat Linux), it cannot be recreated from a Dockerfile. My dockerfile isn't easily portable.</p>
+
+<p>Are there simple commands I can use? Or another solution?</p>
+",308174,,2051454,,13/3/20 11:03,25/5/21 7:04,How to copy Docker images from one host to another without using a repository,<docker>,15,1,684,,,CC BY-SA 4.0,6,23935141,,
+20813486,1,20816397,,28/12/13 10:29,,796,723195,"<p>I've noticed with docker that I need to understand what's happening inside a container or what files exist in there. One example is downloading images from the docker index - you don't have a clue what the image contains so it's impossible to start the application.</p>
+
+<p>What would be ideal is to be able to ssh into them or equivalent. Is there a tool to do this, or is my conceptualisation of docker wrong in thinking I should be able to do this.</p>
+",2668128,,42223,,30/6/17 23:03,23/6/21 13:15,Exploring Docker container's file system,<linux><docker><filesystems>,28,7,307,,,CC BY-SA 3.0,3,20813486,,
+26153686,1,27708039,,2/10/14 2:34,,537,593730,"<p>I created a container with <code>-d</code> so it's not interactive.</p>
+
+<pre><code>docker run -d shykes/pybuilder bin/bash
+</code></pre>
+
+<p>I see that the container has exited:</p>
+
+<pre><code>CONTAINER ID        IMAGE                     COMMAND             CREATED             STATUS                      PORTS               NAMES
+d6c45e8cc5f0        shykes/pybuilder:latest   ""bin/bash""          41 minutes ago      Exited (0) 2 seconds ago                        clever_bardeen
+</code></pre>
+
+<p>Now I would like to run occasional commands on the machine and exit. Just to get the response.</p>
+
+<p>I tried to start the machine. I tried attaching. I thought I could call <code>run</code> with a container, but that does not seem to be allowed. Using <code>start</code> just seems to run and then exist quickly.</p>
+
+<p>I'd like to get back into interactive mode after exiting.</p>
+
+<p>I tried:</p>
+
+<pre><code>docker attach d6c45e8cc5f0
+</code></pre>
+
+<p>But I get:</p>
+
+<pre><code>2014/10/01 22:33:34 You cannot attach to a stopped container, start it first
+</code></pre>
+
+<p>But if I start it, it exits anyway. Catch 22. I can't win.</p>
+",974407,,63550,,13/3/17 19:10,27/5/20 6:47,How do I run a command on an already existing Docker container?,<docker>,19,3,135,,,CC BY-SA 3.0,2,26153686,,
+19335444,1,38783433,,12/10/13 14:46,,555,561863,"<p>I'm not sure if I've misunderstood something here, but it seems like it's only possible to set port mappings by creating a new container from an image. Is there a way to assign a port mapping to an existing Docker container?</p>
+",455988,,63550,,12/3/17 13:28,17/6/21 0:14,How do I assign a port mapping to an existing Docker container?,<docker><port><lxc><linux-containers>,14,4,217,,,CC BY-SA 3.0,4,19335444,,
+26734402,1,,,4/11/14 11:48,,583,496115,"<p>Let's say I have pulled the official <a href=""https://registry.hub.docker.com/_/mysql/"" rel=""noreferrer"">mysql:5.6.21 image</a>. </p>
+
+<p>I have deployed this image by creating several docker containers.</p>
+
+<p>These containers have been running for some time until MySQL 5.6.22 is released. The official image of mysql:5.6 gets updated with the new release, but my containers still run 5.6.21.</p>
+
+<p>How do I propagate the changes in the image (i.e. upgrade MySQL distro) to all my existing containers? What is the proper Docker way of doing this?</p>
+",697313,,2769180,,27/9/16 22:15,21/5/20 16:20,How to upgrade docker container after its image changed,<docker>,13,1,199,,,CC BY-SA 3.0,2,26734402,,
+22944631,1,24716645,,8/4/14 17:53,,426,466974,"<p>As the title says. I need to be able to retrieve the IP address the docker hosts and the portmaps from the host to the container, and doing that inside of the container. </p>
+",335918,,1429387,,13/3/18 7:47,7/5/21 11:23,How to get the IP address of the docker host from inside a docker container,<docker><ip>,26,2,153,,,CC BY-SA 3.0,4,22944631,,
+32723111,1,32723127,,22/9/15 17:23,,863,452054,"<p>When running Docker for a long time, there are a lot of images in system. How can I remove all unused Docker images at once safety to free up the storage?</p>
+
+<p>In addition, I also want to remove images pulled months ago, which have the correct <code>TAG</code>.</p>
+
+<p>So, I'm not asking for removing untagged images only. I'm searching for a way to remove general unused images, which includes both untagged and other images such as pulled months ago with correct <code>TAG</code>.</p>
+",622662,,4671027,,2/8/19 8:28,14/6/21 18:53,How to remove old and unused Docker images,<docker><docker-image>,27,0,333,,,CC BY-SA 4.0,2,32723111,,
+48957195,1,48957722,,23/2/18 22:38,,552,438241,"<p>I installed Docker in my machine where I have Ubuntu OS.<br />
+When I run:</p>
+<pre><code>sudo docker run hello-world
+</code></pre>
+<p>All is ok, but I want to hide the word <code>sudo</code> to make more short the command.<br />
+If I write the command without the word <code>sudo</code></p>
+<pre><code>docker run hello-world
+</code></pre>
+<p>That displays the following:</p>
+<pre><code>docker: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.35/containers/create: dial unix /var/run/docker.sock: connect: permission denied. See 'docker run --help'.
+</code></pre>
+<p>It has happened the same when I try to make:</p>
+<pre><code>docker-compose up
+</code></pre>
+<p>How can I resolve this?</p>
+",7288685,,2506522,,17/5/21 13:18,13/6/21 5:31,How to fix docker: Got permission denied issue,<docker><docker-compose>,27,4,150,,,CC BY-SA 4.0,11,48957195,,"An environment problem when running docker, only applicable for linux users running as nonroot"
+37458287,1,37458519,,26/5/16 10:32,,369,427285,"<p>I am trying to run a cronjob inside a docker container that invokes a shell script.</p>
+
+<p>Yesterday I have been searching all over the web and stack overflow, but I could not really find a solution that works.<br>
+How can I do this?</p>
+
+<p><strong>EDIT:</strong></p>
+
+<p>I've created a <a href=""https://github.com/cheyer/docker-cron"" rel=""noreferrer"">(commented) github repository</a> with a working docker cron container that invokes a shell script at given interval.</p>
+",6268839,,6268839,,26/5/16 14:24,27/6/21 23:59,How to run a cron job inside a docker container?,<docker><cron><containers><sh>,22,0,181,,,CC BY-SA 3.0,6,37458287,,
+27701930,1,27703359,,30/12/14 8:26,,358,413016,"<p>I have a docker container with some processes (uwsgi and celery) running inside. I want to create a celery user and a uwsgi user for these processes as well as a worker group that they will both belong to, in order to assign permissions. </p>
+
+<p>I tried adding <code>RUN adduser uwsgi</code> and <code>RUN adduser celery</code> to my Dockerfile, but this is causing problems, since these commands prompt for input (I've posted the responses from the build below). </p>
+
+<p>What is the best way to add users to a Docker container so as to set permissions for workers running in the container?</p>
+
+<p>My Docker image is built from the official Ubuntu14.04 base.</p>
+
+<p>Here is the output from the Dockerfile when the adduser commands are run:</p>
+
+<pre><code>Adding user `uwsgi' ...
+Adding new group `uwsgi' (1000) ... 
+Adding new user `uwsgi' (1000) with group `uwsgi' ... 
+Creating home directory `/home/uwsgi' ...
+Copying files from `/etc/skel' ... 
+[91mEnter new UNIX password: Retype new UNIX password: [0m 
+[91mpasswd: Authentication token manipulation error
+passwd: password unchanged
+[0m 
+[91mUse of uninitialized value $answer in chop at /usr/sbin/adduser line 563.
+[0m 
+[91mUse of uninitialized value $answer in pattern match (m//) at /usr/sbin/adduser line 564.
+[0m 
+Try again? [y/N] 
+Changing the user information for uwsgi
+Enter the new value, or press ENTER for the default
+    Full Name []: 
+Room Number []:     Work Phone []:  Home Phone []:  Other []: 
+[91mUse of uninitialized value $answer in chop at /usr/sbin/adduser line 589.
+[0m 
+[91mUse of uninitialized value $answer in pattern match (m//) at /usr/sbin/adduser line 590.
+[0m 
+Is the information correct? [Y/n] 
+---&gt; 258f2f2f13df 
+Removing intermediate container 59948863162a 
+Step 5 : RUN adduser celery 
+---&gt; Running in be06f1e20f64 
+Adding user `celery' ...
+Adding new group `celery' (1001) ... 
+Adding new user `celery' (1001) with group `celery' ... 
+Creating home directory `/home/celery' ...
+Copying files from `/etc/skel' ... 
+[91mEnter new UNIX password: Retype new UNIX password: [0m 
+[91mpasswd: Authentication token manipulation error
+passwd: password unchanged
+[0m 
+[91mUse of uninitialized value $answer in chop at /usr/sbin/adduser line 563.
+[0m 
+[91mUse of uninitialized value $answer in pattern match (m//) at /usr/sbin/adduser line 564.
+[0m 
+Try again? [y/N] 
+Changing the user information for celery
+Enter the new value, or press ENTER for the default
+    Full Name []:   Room Number []:     Work Phone []: 
+Home Phone []:  Other []: 
+[91mUse of uninitialized value $answer in chop at /usr/sbin/adduser line 589.
+[0m 
+[91mUse of uninitialized value $answer in pattern match (m//) at /usr/sbin/adduser line 590.
+[0m 
+Is the information correct? [Y/n] 
+</code></pre>
+",2686639,,7940996,,26/5/20 2:55,26/5/20 2:55,How to add users to Docker container?,<linux><ubuntu><dockerfile>,8,0,108,,,CC BY-SA 4.0,2,27701930,,
+31324981,1,31328031,,9/7/15 18:01,,432,395420,"<p>I have a docker container running jenkins. As part of the build process, I need to access a web server that is run locally on the host machine. Is there a way the host web server (which can be configured to run on a port) can be exposed to the jenkins container?</p>
+
+<p>EDIT: I'm running docker natively on a Linux machine.</p>
+
+<p>UPDATE:</p>
+
+<p>In addition to @larsks answer below, to get the IP address of the Host IP from the host machine, I do the following:</p>
+
+<pre><code>ip addr show docker0 | grep -Po 'inet \K[\d.]+'
+</code></pre>
+",1368032,,4671027,,15/2/18 12:41,26/4/21 19:01,How to access host port from docker container,<docker><docker-container>,16,8,154,,,CC BY-SA 3.0,5,31324981,,
+43099116,1,43099210,,29/3/17 16:26,,594,366454,"<p>I am running the following command from my <code>Jenkinsfile</code>. However, I get the error <em>""The input device is not a TTY""</em>.</p>
+
+<pre><code>docker run -v $PWD:/foobar -it cloudfoundry/cflinuxfs2 /foobar/script.sh
+</code></pre>
+
+<p>Is there a way to run the script from the <code>Jenkinsfile</code> without doing interactive mode?</p>
+
+<p>I basically have a file called <code>script.sh</code> that I would like to run inside the Docker container.</p>
+",654203,,63550,,21/7/18 18:43,26/6/21 0:20,"Error ""The input device is not a TTY""",<docker><jenkins><jenkins-pipeline>,13,2,79,,,CC BY-SA 4.0,3,43099116,,
+28212380,1,28214133,,29/1/15 10:30,,306,366393,"<p>I run a container in the background using</p>
+
+<pre><code> docker run -d --name hadoop h_Service
+</code></pre>
+
+<p>it exits quickly. But if I run in the foreground, it works fine. I checked logs using</p>
+
+<pre><code>docker logs hadoop
+</code></pre>
+
+<p>there was no error. Any ideas?</p>
+
+<p><strong>DOCKERFILE</strong></p>
+
+<pre><code> FROM java_ubuntu_new
+ RUN wget http://archive.cloudera.com/cdh4/one-click-install/precise/amd64/cdh4-repository_1.0_all.deb
+ RUN dpkg -i cdh4-repository_1.0_all.deb
+ RUN curl -s http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh/archive.key | apt-key add -
+ RUN  apt-get update
+ RUN apt-get install -y hadoop-0.20-conf-pseudo
+ RUN dpkg -L hadoop-0.20-conf-pseudo
+ USER hdfs
+ RUN hdfs namenode -format
+ USER root
+ RUN apt-get install -y sudo
+ ADD . /usr/local/
+ RUN chmod 777 /usr/local/start-all.sh
+ CMD [""/usr/local/start-all.sh""]
+</code></pre>
+
+<p>start-all.sh</p>
+
+<pre><code> #!/usr/bin/env bash
+ /etc/init.d/hadoop-hdfs-namenode start
+ /etc/init.d/hadoop-hdfs-datanode start
+ /etc/init.d/hadoop-hdfs-secondarynamenode start
+ /etc/init.d/hadoop-0.20-mapreduce-tasktracker start
+ sudo -u hdfs hadoop fs -chmod 777 /
+ /etc/init.d/hadoop-0.20-mapreduce-jobtracker start
+ /bin/bash
+</code></pre>
+",2694184,,1718174,,1/2/17 3:01,31/5/21 17:26,Why docker container exits immediately,<docker>,16,2,81,,,CC BY-SA 3.0,3,28212380,,
+20845056,1,20851484,,30/12/13 18:13,,557,355278,"<p>So I have 3 ports that should be exposed to the machine's interface. Is it possible to do this with a Docker container?</p>
+",118644,,3340702,,9/10/17 15:58,9/2/21 10:54,How can I expose more than 1 port with Docker?,<docker><docker-networking>,5,1,109,,,CC BY-SA 3.0,2,20845056,,
+18136389,1,18138352,,8/8/13 21:23,,394,349481,"<p>I have an app that executes various fun stuff with Git (like running git clone &amp; git push) and I'm trying to docker-ize it.</p>
+
+<p>I'm running into an issue though where I need to be able to add an SSH key to the container for the container 'user' to use.</p>
+
+<p>I tried copying it into <code>/root/.ssh/</code>, changing <code>$HOME</code>, creating a git ssh wrapper, and still no luck. </p>
+
+<p>Here is the Dockerfile for reference:</p>
+
+<pre><code>#DOCKER-VERSION 0.3.4                                                           
+
+from  ubuntu:12.04                                                              
+
+RUN  apt-get update                                                             
+RUN  apt-get install python-software-properties python g++ make git-core openssh-server -y
+RUN  add-apt-repository ppa:chris-lea/node.js                                   
+RUN  echo ""deb http://archive.ubuntu.com/ubuntu precise universe"" &gt;&gt; /etc/apt/sources.list
+RUN  apt-get update                                                             
+RUN  apt-get install nodejs -y                                                  
+
+ADD . /src                                                                       
+ADD ../../home/ubuntu/.ssh/id_rsa /root/.ssh/id_rsa                             
+RUN   cd /src; npm install                                                      
+
+EXPOSE  808:808                                                                 
+
+CMD   [ ""node"", ""/src/app.js""]
+</code></pre>
+
+<p><code>app.js</code> runs the git commands like <code>git pull</code></p>
+",930005,,562769,,22/12/17 9:54,22/4/21 15:37,Using SSH keys inside docker container,<ssh-keys><docker>,34,2,149,,,CC BY-SA 3.0,2,18136389,,
+16296753,1,16311264,,30/4/13 9:40,,457,340482,"<p>How can you run GUI applications in a Linux <a href=""http://www.docker.io"" rel=""noreferrer"">Docker</a> container?</p>
+<p>Are there any images that set up <code>vncserver</code> or something so that you can - for example - add an extra speedbump sandbox around say Firefox?</p>
+",15721,,3195477,,3/6/21 18:16,3/6/21 18:16,Can you run GUI applications in a Linux Docker container?,<linux><docker><x11><sandbox><vnc>,22,2,266,,,CC BY-SA 4.0,3,16296753,,
+28721699,1,28769950,,25/2/15 14:34,,336,339995,"<p>I'm using a Docker image which was built using the USER command to use a non-root user called <code>dev</code>.
+Inside a container, I'm ""dev"", but I want to edit the <code>/etc/hosts</code> file.</p>
+
+<p>So I need to be root. I'm trying the su command, but I'm asked to enter the root password.</p>
+
+<p>What's the default root user's password inside a Docker container?</p>
+",1581295,,63550,,15/9/18 21:27,1/9/20 12:31,Root password inside a Docker container,<docker>,16,1,126,,,CC BY-SA 4.0,2,28721699,,
+40801772,1,,,25/11/16 9:39,,647,337162,"<p>What is the difference between <code>ports</code> and <code>expose</code> options in <code>docker-compose.yml</code></p>
+",84143,,4516110,,26/2/19 9:47,10/4/21 3:07,What is the difference between docker-compose ports vs expose,<docker><docker-compose>,5,0,141,,,CC BY-SA 4.0,2,40801772,,
+27068596,1,34392052,,21/11/14 19:11,,625,319138,"<p>How can I include files from outside of Docker's build context using the ""ADD"" command in the Docker file?</p>
+
+<p>From the Docker documentation:</p>
+
+<blockquote>
+  <p>The  path must be inside the context of the build; you cannot ADD
+  ../something/something, because the first step of a docker build is to
+  send the context directory (and subdirectories) to the docker daemon.</p>
+</blockquote>
+
+<p>I do not want to restructure my whole project just to accommodate Docker in this matter. I want to keep all my Docker files in the same sub-directory.</p>
+
+<p>Also, it appears Docker does not yet (and may not ever) support symlinks: <a href=""https://github.com/docker/docker/issues/1676"" rel=""noreferrer"">Dockerfile ADD command does not follow symlinks on host #1676.</a> </p>
+
+<p>The only other thing I can think of is to include a pre-build step to copy the files into the Docker build context (and configure my version control to ignore those files). Is there a better workaround for than that?</p>
+",2048879,,321731,,12/8/18 16:34,4/6/21 10:21,How to include files outside of Docker's build context?,<docker>,16,4,85,,,CC BY-SA 4.0,18,27068596,,
+31746182,1,41854997,,31/7/15 12:25,,419,310502,"<p>I am using rabbitmq and a simple python sample from <a href=""https://www.rabbitmq.com/tutorials/tutorial-one-python.html"" rel=""noreferrer"">here</a>
+together with docker-compose. My problem is that I need to wait for rabbitmq to be fully started. From what I searched so far, I don't know how to wait with container x (in my case worker) until y (rabbitmq) is started.</p>
+<p>I found this <a href=""http://blog.chmouel.com/2014/11/04/avoiding-race-conditions-between-containers-with-docker-and-fig/"" rel=""noreferrer"">blog post</a> where he checks if the other host is online.
+I also found this <a href=""https://docs.docker.com/reference/commandline/wait/"" rel=""noreferrer"">docker command</a>:</p>
+<blockquote>
+<p><strong>wait</strong></p>
+<p>Usage: docker wait CONTAINER [CONTAINER...]</p>
+<p>Block until a container stops, then print its exit code.</p>
+</blockquote>
+<p>Waiting for a container to stop is maybe not what I am looking for but if
+it is, is it possible to use that command inside the docker-compose.yml?
+My solution so far is to wait some seconds and check the port, but is this the way to achieve this? If I don't wait, I get an error.</p>
+<p><strong>docker-compose.yml</strong></p>
+<pre class=""lang-yaml prettyprint-override""><code>worker:
+    build: myapp/.
+    volumes:
+    - myapp/.:/usr/src/app:ro
+
+    links:
+    - rabbitmq
+rabbitmq:
+    image: rabbitmq:3-management
+</code></pre>
+<p><strong>python hello sample (rabbit.py):</strong></p>
+<pre class=""lang-py prettyprint-override""><code>import pika
+import time
+
+import socket
+
+pingcounter = 0
+isreachable = False
+while isreachable is False and pingcounter &lt; 5:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        s.connect(('rabbitmq', 5672))
+        isreachable = True
+    except socket.error as e:
+        time.sleep(2)
+        pingcounter += 1
+    s.close()
+
+if isreachable:
+    connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host=&quot;rabbitmq&quot;))
+    channel = connection.channel()
+
+    channel.queue_declare(queue='hello')
+
+    channel.basic_publish(exchange='',
+                          routing_key='hello',
+                          body='Hello World!')
+    print (&quot; [x] Sent 'Hello World!'&quot;)
+    connection.close()
+</code></pre>
+<p><strong>Dockerfile for worker:</strong></p>
+<pre><code>FROM python:2-onbuild
+RUN [&quot;pip&quot;, &quot;install&quot;, &quot;pika&quot;]
+
+CMD [&quot;python&quot;,&quot;rabbit.py&quot;]
+</code></pre>
+<p><strong>Update Nov 2015</strong>:</p>
+<p>A shell script or waiting inside your program is maybe a possible solution. But after seeing this <a href=""https://github.com/docker/compose/issues/374"" rel=""noreferrer"">Issue</a> I am looking for a command or feature of docker/docker-compose itself.</p>
+<p>They mention a  solution for implementing a health check, which may be the best option. A open tcp connection does not mean your service is ready or may remain ready. In addition to that I need to change my entrypoint in my dockerfile.</p>
+<p>So I am hoping for an answer with docker-compose on board commands, which will hopefully the case if they finish this issue.</p>
+<p><strong>Update March 2016</strong></p>
+<p>There is a <a href=""https://github.com/docker/docker/issues/21142"" rel=""noreferrer"">proposal</a> for providing a built-in way to determine if a container is &quot;alive&quot;. So docker-compose can maybe make use of it in near future.</p>
+<p><strong>Update June 2016</strong></p>
+<p>It seems that the healthcheck will be <a href=""https://github.com/docker/docker/pull/23218"" rel=""noreferrer"">integrated</a> into docker in Version 1.12.0</p>
+<p><strong>Update January 2017</strong></p>
+<p>I found a docker-compose solution see:
+<a href=""https://stackoverflow.com/questions/31746182/docker-compose-wait-for-container-x-before-starting-y/41854997#41854997"">Docker Compose wait for container X before starting Y</a></p>
+",1584115,,1402846,,30/9/20 9:38,12/4/21 18:09,Docker Compose wait for container X before starting Y,<docker-compose>,18,2,149,,,CC BY-SA 4.0,20,31746182,,
+27093612,1,38742545,,23/11/14 19:58,,511,308371,"<p>I have a dockerfile that download and builds GTK from source, but the following line is not updating my image's environment variable:</p>
+
+<pre><code>RUN PATH=""/opt/gtk/bin:$PATH""
+RUN export PATH
+</code></pre>
+
+<p>I read that that I should be using ENV to set environment values, but the following instruction doesn't seem to work either:</p>
+
+<p><code>ENV PATH /opt/gtk/bin:$PATH</code></p>
+
+<p>This is my entire Dockerfile:</p>
+
+<pre><code>FROM ubuntu
+RUN apt-get update
+RUN apt-get install -y golang gcc make wget git libxml2-utils libwebkit2gtk-3.0-dev libcairo2 libcairo2-dev libcairo-gobject2 shared-mime-info libgdk-pixbuf2.0-* libglib2-* libatk1.0-* libpango1.0-* xserver-xorg xvfb
+
+# Downloading GTKcd
+RUN wget http://ftp.gnome.org/pub/gnome/sources/gtk+/3.12/gtk+-3.12.2.tar.xz
+RUN tar xf gtk+-3.12.2.tar.xz
+RUN cd gtk+-3.12.2
+
+# Setting environment variables before running configure
+RUN CPPFLAGS=""-I/opt/gtk/include""
+RUN LDFLAGS=""-L/opt/gtk/lib""
+RUN PKG_CONFIG_PATH=""/opt/gtk/lib/pkgconfig""
+RUN export CPPFLAGS LDFLAGS PKG_CONFIG_PATH
+RUN ./configure --prefix=/opt/gtk
+RUN make
+RUN make install
+
+# running ldconfig after make install so that the newly installed libraries are found.
+RUN ldconfig
+
+# Setting the LD_LIBRARY_PATH environment variable so the systems dynamic linker can find the newly installed libraries.
+RUN LD_LIBRARY_PATH=""/opt/gtk/lib""
+
+# Updating PATH environment program so that utility binaries installed by the various libraries will be found.
+RUN PATH=""/opt/gtk/bin:$PATH""
+RUN export LD_LIBRARY_PATH PATH
+
+# Collecting garbage
+RUN rm -rf gtk+-3.12.2.tar.xz
+
+# creating go code root
+RUN mkdir gocode
+RUN mkdir gocode/src
+RUN mkdir gocode/bin
+RUN mkdir gocode/pkg
+
+# Setting the GOROOT and GOPATH enviornment variables, any commands created are automatically added to PATH
+RUN GOROOT=/usr/lib/go
+RUN GOPATH=/root/gocode
+RUN PATH=$GOPATH/bin:$PATH
+RUN export GOROOT GOPATH PATH
+</code></pre>
+",1315565,,402884,,18/11/15 21:22,3/12/20 3:02,"In a Dockerfile, How to update PATH environment variable?",<docker><dockerhub>,4,3,63,,,CC BY-SA 3.0,2,27093612,,
+28302178,1,33956387,,3/2/15 15:08,,398,305932,"<p>I have a Docker container that I've created simply by installing Docker on Ubuntu and doing:</p>
+<pre><code>sudo docker run -i -t ubuntu /bin/bash
+</code></pre>
+<p>I immediately started installing Java and some other tools, spent some time with it, and stopped the container by</p>
+<pre><code>exit
+</code></pre>
+<p>Then I wanted to add a volume and realised that this is not as straightforward as I thought it would be. If I use <code>sudo docker -v /somedir run ...</code> then I end up with a fresh new container, so I'd have to install Java and do what I've already done before just to arrive at a container with a mounted volume.</p>
+<p>All the documentation about mounting a folder from the host seems to imply that mounting a volume is something that can be done when creating a container. So the only option I have to avoid reconfiguring a new container from scratch is to commit the existing container to a repository and use that as the basis of a new one whilst mounting the volume.</p>
+<p>Is this indeed the only way to add a volume to an existing container?</p>
+",238517,,1402846,,15/7/20 9:31,5/6/21 15:43,How can I add a volume to an existing Docker container?,<docker>,8,0,101,,,CC BY-SA 4.0,2,28302178,,
+37694987,1,,,8/6/16 6:39,,304,301822,"<p>I have Postgresql on a server in a docker container. How can I connect to it from the outside, that is, from my local computer? What setting should I apply to allow that?</p>
+",6250601,,,,,22/5/21 4:19,Connecting to Postgresql in a docker container from outside,<postgresql><docker><remote-connection>,16,2,131,,,CC BY-SA 3.0,2,37694987,,
+20635472,1,25086628,,17/12/13 13:29,,332,273056,"<p>I have a Dockerfile that I am putting together to install a vanilla python environment (into which I will be installing an app, but at a later date).</p>
+
+<pre><code>FROM ubuntu:12.04
+
+# required to build certain python libraries
+RUN apt-get install python-dev -y
+
+# install pip - canonical installation instructions from pip-installer.org
+# http://www.pip-installer.org/en/latest/installing.html
+ADD https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py /tmp/ez_setup.py
+ADD https://raw.github.com/pypa/pip/master/contrib/get-pip.py /tmp/get-pip.py
+RUN python /tmp/ez_setup.py
+RUN python /tmp/get-pip.py
+RUN pip install --upgrade pip 
+
+# install and configure virtualenv
+RUN pip install virtualenv 
+RUN pip install virtualenvwrapper
+ENV WORKON_HOME ~/.virtualenvs
+RUN mkdir -p $WORKON_HOME
+RUN source /usr/local/bin/virtualenvwrapper.sh
+</code></pre>
+
+<p>The build runs ok until the last line, where I get the following exception:</p>
+
+<pre><code>[previous steps 1-9 removed for clarity]
+...
+Successfully installed virtualenvwrapper virtualenv-clone stevedore
+Cleaning up...
+ ---&gt; 1fc253a8f860
+Step 10 : ENV WORKON_HOME ~/.virtualenvs
+ ---&gt; Running in 8b0145d2c80d
+ ---&gt; 0f91a5d96013
+Step 11 : RUN mkdir -p $WORKON_HOME
+ ---&gt; Running in 9d2552712ddf
+ ---&gt; 3a87364c7b45
+Step 12 : RUN source /usr/local/bin/virtualenvwrapper.sh
+ ---&gt; Running in c13a187261ec
+/bin/sh: 1: source: not found
+</code></pre>
+
+<p>If I <code>ls</code> into that directory (just to test that the previous steps were committed) I can see that the files exist as expected:</p>
+
+<pre><code>$ docker run 3a87 ls /usr/local/bin
+easy_install
+easy_install-2.7
+pip
+pip-2.7
+virtualenv
+virtualenv-2.7
+virtualenv-clone
+virtualenvwrapper.sh
+virtualenvwrapper_lazy.sh
+</code></pre>
+
+<p>If I try just running the <code>source</code> command I get the same 'not found' error as above. If I RUN an interactive shell session however, source does work:</p>
+
+<pre><code>$ docker run 3a87 bash
+source
+bash: line 1: source: filename argument required
+source: usage: source filename [arguments]
+</code></pre>
+
+<p>I can run the script from here, and then happily access <code>workon</code>, <code>mkvirtualenv</code> etc.</p>
+
+<p>I've done some digging, and initially it looked as if the problem might lie in the difference between <strong>bash</strong> as the Ubuntu <em>login shell</em>, and <strong>dash</strong> as the Ubuntu <em>system shell</em>, <strong>dash</strong> not supporting the <code>source</code> command.</p>
+
+<p>However, the answer to this appears to be to use <strong>'.'</strong> instead of <code>source</code>, but this just causes the Docker runtime to blow up with a go panic exception.</p>
+
+<p>What is the best way to run a shell script from a Dockerfile RUN instruction to get around this (am running off the default base image for Ubuntu 12.04 LTS).</p>
+",45698,,,,,20/5/21 18:21,Using the RUN instruction in a Dockerfile with 'source' does not work,<bash><shell><docker>,18,5,76,,,CC BY-SA 3.0,2,20635472,,
+19537645,1,34600106,,23/10/13 9:16,,295,270611,"<p>I'm building a container for a ruby app. My app's configuration is contained within environment variables (loaded inside the app with <a href=""http://github.com/bkeepers/dotenv"">dotenv</a>).</p>
+
+<p>One of those configuration variables is the public ip of the app, which is used internally to make links.
+I need to add a dnsmasq entry pointing this ip to 127.0.0.1 inside the container, so it can fetch the app's links as if it were not containerized.</p>
+
+<p>I'm therefore trying to set an <code>ENV</code> in my Dockerfile which would pass an environment variable to the container.</p>
+
+<p>I tried a few things.</p>
+
+<pre><code>ENV REQUEST_DOMAIN $REQUEST_DOMAIN
+ENV REQUEST_DOMAIN `REQUEST_DOMAIN`
+</code></pre>
+
+<p>Everything passes the ""REQUEST_DOMAIN"" string instead of the value of the environment variable though.
+Is there a way to pass environment variables values from the host machine to the container?</p>
+",122080,,,,,17/5/20 14:34,Get environment variable value in Dockerfile,<docker>,6,0,59,,,CC BY-SA 3.0,2,19537645,,
+28996907,1,28997256,,11/3/15 20:40,,398,266842,"<p>Trying to follow the instructions for building a docker image from the docker website.</p>
+
+<p><a href=""https://docs.docker.com/examples/running_redis_service/"">https://docs.docker.com/examples/running_redis_service/</a></p>
+
+<p>this is the error I get will following the instructions on the doc and using this Dockerfile</p>
+
+<pre><code>FROM        ubuntu:14.04
+RUN         apt-get update &amp;&amp; apt-get install -y redis-server
+EXPOSE      6379
+ENTRYPOINT  [""/usr/bin/redis-server""]
+
+
+sudo docker build -t myrepo/redis
+docker: ""build"" requires 1 argument. See 'docker build --help'.
+</code></pre>
+
+<p>How do  resolve?</p>
+",1203556,,3467532,,25/7/17 16:08,23/10/20 16:28,"docker: ""build"" requires 1 argument. See 'docker build --help'",<docker><containers>,14,0,42,,,CC BY-SA 3.0,2,28996907,,

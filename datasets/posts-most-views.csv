@@ -1,0 +1,1827 @@
+Id,PostTypeId,AcceptedAnswerId,ParentId,CreationDate,DeletionDate,Score,ViewCount,Body,OwnerUserId,OwnerDisplayName,LastEditorUserId,LastEditorDisplayName,LastEditDate,LastActivityDate,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ClosedDate,CommunityOwnedDate,ContentLicense
+"17157721","1","20686101","","2013-06-17 22:10:22","","1673","1624299","<p>Is there a command I can run to get the container's IP address right from the host after a new container is created?</p>
+
+<p>Basically, once Docker creates the container, I want to roll my own code deployment and container configuration scripts.</p>
+","1131518","","1746118","","2021-04-08 13:32:36","2021-04-08 13:32:36","How to get a Docker container's IP address from the host","<docker><ip-address>","52","1","490","","","CC BY-SA 4.0"
+"22907231","1","31971697","","2014-04-07 08:28:55","","1894","1508990","<p>I am trying to build a backup and restore solution for the Docker containers that we work with.</p>
+
+<p>I have Docker base image that I have created, <code>ubuntu:base</code>, and do not want have to rebuild it each time with a Docker file to add files to it.</p>
+
+<p>I want to create a script that runs from the host machine and creates a new container using the <code>ubuntu:base</code> Docker image and then copies files into that container.</p>
+
+<p>How can I copy files from the host to the container?</p>
+","3001829","","3257186","","2020-10-14 12:57:06","2021-05-26 21:56:17","How to copy files from host to Docker container?","<docker><docker-container>","45","4","555","","","CC BY-SA 4.0"
+"30172605","1","30173220","","2015-05-11 16:12:30","","1447","1339373","<p>I'm getting started working with Docker. I'm using the WordPress base image and docker-compose.</p>
+
+<p>I'm trying to ssh into one of the containers to inspect the files/directories that were created during the initial build. I tried to run <code>docker-compose run containername ls -la</code>, but that didn't do anything. Even if it did, I'd rather have a console where I can traverse the directory structure, rather than run a single command. What is the right way to do this with Docker?</p>
+","48523","","1663462","","2019-02-03 16:25:40","2021-06-19 15:46:41","How do I get into a Docker container's shell?","<docker><docker-container>","26","5","421","","","CC BY-SA 4.0"
+"24319662","1","24326540","","2014-06-20 03:54:16","","2075","1224162","<p>So I have a Nginx running inside a docker container, I have a mysql running on localhost, I want to connect to the MySql from within my Nginx. The MySql is running on localhost and not exposing a port to the outside world, so its bound on localhost, not bound on the ip address of the machine.</p>
+
+<p>Is there any way to connect to this MySql or any other program on localhost from within this docker container?</p>
+
+<p>This question is different from ""How to get the IP address of the docker host from inside a docker container"" due to the fact that the IP address of the docker host could be the public IP or the private IP in the network which may or may not be reachable from within the docker container (I mean public IP if hosted at AWS or something). Even if you have the IP address of the docker host it does not mean you can connect to docker host from within the container given that IP address as your Docker network may be overlay, host, bridge, macvlan, none etc which restricts the reachability of that IP address.</p>
+","78000","","78000","","2019-11-09 12:21:57","2021-05-26 03:12:41","From inside of a Docker container, how do I connect to the localhost of the machine?","<nginx><docker><reverse-proxy><docker-networking>","34","5","858","","","CC BY-SA 4.0"
+"22049212","1","22050116","","2014-02-26 17:46:52","","2132","1146262","<p>I'm thinking of using Docker to build my dependencies on a Continuous Integration (CI) server, so that I don't have to install all the runtimes and libraries on the agents themselves. </p>
+
+<p>To achieve this I would need to copy the build artifacts that are built inside the container back into the host. Is that possible?</p>
+","2668128","","10907864","","2020-12-02 22:30:14","2021-04-21 09:10:05","Docker: Copying files from Docker container to host","<docker><docker-container><file-copying>","21","4","487","","","CC BY-SA 4.0"
+"23439126","1","","","2014-05-03 01:12:14","","732","1087358","<p>I am trying to mount a host directory into a Docker container so that any updates done on the host is reflected into the Docker containers.</p>
+
+<p>Where am I doing something wrong. Here is what I did:</p>
+
+<pre><code>kishore$ cat Dockerfile
+
+FROM ubuntu:trusty
+RUN apt-get update
+RUN apt-get -y install git curl vim
+CMD [""/bin/bash""]
+WORKDIR /test_container
+VOLUME [""/test_container""]
+</code></pre>
+
+<p><pre><code>kishore$ tree
+.
+├── Dockerfile
+└── main_folder
+    ├── tfile1.txt
+    ├── tfile2.txt
+    ├── tfile3.txt
+    └── tfile4.txt</p>
+
+<p>1 directory, 5 files
+kishore$ pwd
+/Users/kishore/tdock
+</code></pre><pre><code>kishore$ docker build --tag=k3_s3:latest .</p>
+
+<pre><code>Uploading context 7.168 kB
+Uploading context
+Step 0 : FROM ubuntu:trusty
+ ---&gt; 99ec81b80c55
+Step 1 : RUN apt-get update
+ ---&gt; Using cache
+ ---&gt; 1c7282005040
+Step 2 : RUN apt-get -y install git curl vim
+ ---&gt; Using cache
+ ---&gt; aed48634e300
+Step 3 : CMD [""/bin/bash""]
+ ---&gt; Running in d081b576878d
+ ---&gt; 65db8df48595
+Step 4 : WORKDIR /test_container
+ ---&gt; Running in 5b8d2ccd719d
+ ---&gt; 250369b30e1f
+Step 5 : VOLUME [""/test_container""]
+ ---&gt; Running in 72ca332d9809
+ ---&gt; 163deb2b1bc5
+Successfully built 163deb2b1bc5
+Removing intermediate container b8bfcb071441
+Removing intermediate container d081b576878d
+Removing intermediate container 5b8d2ccd719d
+Removing intermediate container 72ca332d9809
+</code></pre>
+
+<p>kishore$ docker run -d -v /Users/kishore/main_folder:/test_container k3_s3:latest
+<code>c9f9a7e09c54ee1c2cc966f15c963b4af320b5203b8c46689033c1ab8872a0ea</code></code></pre><pre><code>kishore$ docker run -i -t k3_s3:latest /bin/bash</p>
+
+<pre><code>root@0f17e2313a46:/test_container# ls -al
+total 8
+drwx------  2 root root 4096 Apr 29 05:15 .
+drwxr-xr-x 66 root root 4096 Apr 29 05:15 ..
+</code></pre>
+
+<p>root@0f17e2313a46:/test_container# exit
+exit</code></pre><pre><code>kishore$ docker -v
+Docker version 0.9.1, build 867b2a9</code></pre></p>
+
+<ul>
+<li>I don't know how to check boot2docker version</li>
+</ul>
+
+<p>Questions, issues facing:</p>
+
+<ol>
+<li>How do I need to link the main_folder to the test_container folder present inside the docker container?</li>
+<li>I need to make this automatically. How do I to do that without really using the <code>run -d -v</code> command?</li>
+<li>What happens if the boot2docker crashes? Where are the Docker files stored (apart from Dockerfile)?</li>
+</ol>
+","2171928","","321731","","2019-06-27 21:01:00","2020-12-20 00:45:18","How to mount a host directory in a Docker container","<docker><mount><boot2docker>","25","2","173","","","CC BY-SA 4.0"
+"30494050","1","30494145","","2015-05-27 22:17:09","","964","1033237","<p>I'm new to Docker, and it's unclear how to access an external database from a container. Is the best way to hard-code in the connection string?</p>
+
+<pre><code># Dockerfile
+ENV DATABASE_URL amazon:rds/connection?string
+</code></pre>
+","824377","","4574309","","2019-06-13 09:59:17","2021-06-18 01:44:16","How do I pass environment variables to Docker containers?","<docker><environment-variables><dockerfile>","14","0","174","","","CC BY-SA 3.0"
+"18497688","1","18498313","","2013-08-28 20:34:51","","655","987623","<p>After building a Docker image from a <code>dockerfile</code>, I see the image was built successfully, but what do I do with it? Shouldn't i be able to run it as a container?</p>
+","949845","","7581507","","2020-08-26 08:50:44","2020-08-26 08:50:44","Run a Docker image as a container","<docker><docker-image>","11","0","120","","","CC BY-SA 4.0"
+"19234831","1","25978888","","2013-10-07 21:08:48","","944","946034","<p>I managed to find the containers under directory <code>/var/lib/docker/containers</code>, but I can't find the images.</p>
+
+<p>What are the directories and files under <code>/var/lib/docker</code>?</p>
+","714179","","63550","","2017-03-29 16:26:02","2021-05-26 15:51:44","Where are Docker images stored on the host machine?","<docker><docker-image>","29","1","271","","","CC BY-SA 3.0"
+"16840409","1","16842203","","2013-05-30 15:41:46","","965","838219","<p>There's a command to list images, <code>docker images</code>, but there doesn't seem to be a corresponding <code>docker containers</code>.</p>
+
+<p>Other than becoming root and looking into <code>/var/lib/docker</code> there doesn't seem a way to do that. Am I missing something? Is that something one isn't supposed to do?</p>
+","124416","","63550","","2018-06-21 19:58:23","2020-04-08 12:02:45","How to list containers in Docker","<docker>","14","1","211","","","CC BY-SA 4.0"
+"24958140","1","24958548","","2014-07-25 14:31:20","","2506","808905","<p>What is the difference between the <code>COPY</code> and <code>ADD</code> commands in a Dockerfile, and when would I use one over the other?</p>
+
+<pre><code>COPY &lt;src&gt; &lt;dest&gt;
+</code></pre>
+
+<blockquote>
+  <p>The COPY instruction will copy new files from <code>&lt;src&gt;</code> and add them to the container's filesystem at path <code>&lt;dest&gt;</code></p>
+</blockquote>
+
+<pre><code>ADD &lt;src&gt; &lt;dest&gt;
+</code></pre>
+
+<blockquote>
+  <p>The ADD instruction will copy new files from <code>&lt;src&gt;</code> and add them to the container's filesystem at path <code>&lt;dest&gt;</code>.</p>
+</blockquote>
+","131640","","7911776","","2019-09-16 05:12:49","2021-04-29 07:32:05","What is the difference between the 'COPY' and 'ADD' commands in a Dockerfile?","<docker><dockerfile>","16","5","358","","","CC BY-SA 4.0"
+"16047306","1","16048358","","2013-04-16 21:19:47","","3982","799487","<p>I keep rereading <a href=""https://docs.docker.com/"" rel=""noreferrer"">the Docker documentation</a> to try to understand the difference between Docker and a full VM. How does it manage to provide a full filesystem, isolated networking environment, etc. without being as heavy?</p>
+
+<p>Why is deploying software to a Docker image (if that's the right term) easier than simply deploying to a consistent production environment?</p>
+","109549","","63550","","2018-08-28 20:04:57","2020-11-26 15:53:35","How is Docker different from a virtual machine?","<docker><containers><virtual-machine><virtualization>","21","9","1879","","","CC BY-SA 4.0"
+"23935141","1","23938978","","2014-05-29 13:57:18","","1700","790303","<p>How do I transfer a Docker image from one machine to another one without using a repository, no matter private or public?</p>
+
+<p>I create my own image in VirtualBox, and when it is finished I try to deploy to other machines to have real usage.</p>
+
+<p>Since it is based on my own based image (like Red Hat Linux), it cannot be recreated from a Dockerfile. My dockerfile isn't easily portable.</p>
+
+<p>Are there simple commands I can use? Or another solution?</p>
+","308174","","2051454","","2020-03-13 11:03:13","2021-05-25 07:04:20","How to copy Docker images from one host to another without using a repository","<docker>","15","1","684","","","CC BY-SA 4.0"
+"35594987","1","35595021","","2016-02-24 06:37:48","","1088","769691","<p>I have build a Docker image from a Docker file using the below command.</p>
+
+<pre><code>$ docker build -t u12_core -f u12_core .
+</code></pre>
+
+<p>When I am trying to rebuild it with the same command, it's using the build cache like:</p>
+
+<pre><code>Step 1 : FROM ubuntu:12.04
+ ---&gt; eb965dfb09d2
+Step 2 : MAINTAINER Pavan Gupta &lt;pavan.gupta@gmail.com&gt;
+ ---&gt; Using cache
+ ---&gt; 4354ccf9dcd8
+Step 3 : RUN apt-get update
+ ---&gt; Using cache
+ ---&gt; bcbca2fcf204
+Step 4 : RUN apt-get install -y openjdk-7-jdk
+ ---&gt; Using cache
+ ---&gt; 103f1a261d44
+Step 5 : RUN apt-get install -y openssh-server
+ ---&gt; Using cache
+ ---&gt; dde41f8d0904
+Step 6 : RUN apt-get install -y git-core
+ ---&gt; Using cache
+ ---&gt; 9be002f08b6a
+Step 7 : RUN apt-get install -y build-essential
+ ---&gt; Using cache
+ ---&gt; a752fd73a698
+Step 8 : RUN apt-get install -y logrotate
+ ---&gt; Using cache
+ ---&gt; 93bca09b509d
+Step 9 : RUN apt-get install -y lsb-release
+ ---&gt; Using cache
+ ---&gt; fd4d10cf18bc
+Step 10 : RUN mkdir /var/run/sshd
+ ---&gt; Using cache
+ ---&gt; 63b4ecc39ff0
+Step 11 : RUN echo 'root:root' | chpasswd
+ ---&gt; Using cache
+ ---&gt; 9532e31518a6
+Step 12 : RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+ ---&gt; Using cache
+ ---&gt; 47d1660bd544
+Step 13 : RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+ ---&gt; Using cache
+ ---&gt; d1f97f1c52f7
+Step 14 : RUN wget -O aerospike.tgz 'http://aerospike.com/download/server/latest/artifact/ubuntu12'
+ ---&gt; Using cache
+ ---&gt; bd7dde7a98b9
+Step 15 : RUN tar -xvf aerospike.tgz
+ ---&gt; Using cache
+ ---&gt; 54adaa09921f
+Step 16 : RUN dpkg -i aerospike-server-community-*/*.deb
+ ---&gt; Using cache
+ ---&gt; 11aba013eea5
+Step 17 : EXPOSE 22 3000 3001 3002 3003
+ ---&gt; Using cache
+ ---&gt; e33aaa78a931
+Step 18 : CMD /usr/sbin/sshd -D
+ ---&gt; Using cache
+ ---&gt; 25f5fe70fa84
+Successfully built 25f5fe70fa84
+</code></pre>
+
+<p>The cache shows that aerospike is installed. However, I don't find it inside containers spawn from this image, so I want to rebuild this image without using the cache. How can I force Docker to rebuild a clean image without the cache?</p>
+","2710873","","582436","","2019-01-14 00:53:06","2020-10-31 18:18:39","How to force Docker for a clean build of an image","<docker><aerospike>","9","6","152","","","CC BY-SA 4.0"
+"17236796","1","17237701","","2013-06-21 13:41:42","","1313","757030","<p>This question is related to <em><a href=""https://stackoverflow.com/questions/17014263/should-i-be-concerned-about-excess-non-running-docker-containers"">Should I be concerned about excess, non-running, Docker containers?</a></em>.</p>
+
+<p>I'm wondering how to remove old containers. The <code>docker rm 3e552code34a</code> lets you remove a single one, but I have lots already. <code>docker rm --help</code> doesn't give a selection option (like all, or by image name).</p>
+
+<p>Maybe there is a directory in which these containers are stored where I can delete them easily manually?</p>
+","1449361","","-1","","2017-05-23 11:55:19","2021-02-22 16:16:57","How to remove old Docker containers","<docker>","62","7","498","","","CC BY-SA 3.0"
+"20813486","1","20816397","","2013-12-28 10:29:02","","796","723195","<p>I've noticed with docker that I need to understand what's happening inside a container or what files exist in there. One example is downloading images from the docker index - you don't have a clue what the image contains so it's impossible to start the application.</p>
+
+<p>What would be ideal is to be able to ssh into them or equivalent. Is there a tool to do this, or is my conceptualisation of docker wrong in thinking I should be able to do this.</p>
+","2668128","","42223","","2017-06-30 23:03:53","2021-06-23 13:15:36","Exploring Docker container's file system","<linux><docker><filesystems>","28","7","307","","","CC BY-SA 3.0"
+"21871479","1","","","2014-02-19 05:02:22","","542","714251","<p>After I update my Docker version to <code>0.8.0</code>, I get an error message while entering <code>sudo docker version</code>:</p>
+
+<pre><code>Client version: 0.8.0
+Go version (client): go1.2
+Git commit (client): cc3a8c8
+2014/02/19 12:54:16 Can't connect to docker daemon. Is 'docker -d' running on this host?
+</code></pre>
+
+<p>And I've followed the instructions and entered command <code>sudo docker -d</code>, and I got this:</p>
+
+<pre><code>[/var/lib/docker|2462000b] +job initserver()
+[/var/lib/docker|2462000b.initserver()] Creating server
+open /var/lib/docker/aufs/layers/cf2414da53f9bcfaa48bc3d58360d7f1cfd3784e4fe51fbef95197709dfc285d: no such file or directory[/var/lib/docker|2462000b] -job initserver() = ERR (1)
+2014/02/19 12:55:57 initserver: open /var/lib/docker/aufs/layers/cf2414da53f9bcfaa48bc3d58360d7f1cfd3784e4fe51fbef95197709dfc285d: no such file or directory
+</code></pre>
+
+<p>How do I solve the problem?</p>
+","1497484","","63550","","2017-03-11 16:38:52","2021-06-24 07:19:20","Docker can't connect to docker daemon","<linux><docker>","42","6","173","","","CC BY-SA 3.0"
+"17665283","1","17870293","","2013-07-15 22:56:02","","859","701596","<p>I'm running Docker under Vagrant under OS X 10.8.4  (Mountain Lion), and whenever I try to delete a saved image, I get an error:</p>
+
+<pre><code>$ docker rmi some-image-id
+2013/07/15 hh:mm:ss unexpected JSON input
+</code></pre>
+
+<p>According to the <code>rmi</code> help, the proper syntax is <code>docker rmi IMAGE [IMAGE...]</code>, and I'm not sure what to make of that.</p>
+
+<p>How can I delete an image?</p>
+
+<pre><code>$ docker version
+Client version: 0.4.8
+Server version: 0.4.8
+Go version: go1.1
+</code></pre>
+
+<p> </p>
+
+<pre><code>$docker info
+Containers: 1
+Images: 3
+</code></pre>
+
+<p>Interestingly, when I run <code>docker ps</code>, no containers show up at all. Running <code>docker images</code> shows four (4) <code>base</code> images and one (1) <code>node</code> image.</p>
+","1033027","","1797006","","2021-01-24 22:00:30","2021-01-24 22:00:30","How does one remove a Docker image?","<docker>","19","9","264","","","CC BY-SA 4.0"
+"44678725","1","","","2017-06-21 14:18:53","","349","696388","<p>I have applied every solution available on internet but still I cannot run Docker.</p>
+
+<p>I want to use Scrapy Splash on my server.</p>
+
+<p>Here is <code>history</code> of commands I ran.</p>
+
+<pre><code>docker run -p 8050:8050 scrapinghub/splash
+sudo docker run -p 8050:8050 scrapinghub/splash
+sudo usermod -aG docker $(whoami)
+sudo docker run -p 8050:8050 scrapinghub/splash
+newgrp docker
+sudo docker run -p 8050:8050 scrapinghub/splash
+reboot
+sudo docker run -p 8050:8050 scrapinghub/splash
+docker run -p 8050:8050 scrapinghub/splash
+</code></pre>
+
+<p>You can see I tried to restart my server as well, but it didnt help.</p>
+
+<p>see output of <code>ps -aux | grep docker</code></p>
+
+<pre><code>root@mani:/var/www/html# ps aux | grep docker
+root      8524  0.0  0.8 127904 13964 ?        Ssl  17:21   0:00 /usr/bin/dockerd --raw-logs
+root      8534  0.0  0.3  90588  5012 ?        Ssl  17:21   0:00 docker-containerd -l unix:///var/run/docker/libcontainerd/docker-containerd.sock --metrics-interval=0 --start-timeout 2m --state-dir /var/run/docker/libcontainerd/containerd --shim docker-containerd-shim --runtime docker-runc
+root      8543  0.0  0.0   8812   764 pts/1    S+   17:21   0:00 grep --color=auto docker
+root     16356  0.0  0.0  17200   964 pts/1    S    17:14   0:00 newgrp docker
+root     20080  0.0  0.0  17200   964 pts/1    S    17:06   0:00 newgrp docker
+root     30221  0.0  0.0  17200   964 pts/1    S    17:09   0:00 newgrp docker
+</code></pre>
+","4094231","","608639","","2017-06-21 16:47:59","2021-07-01 14:18:42","Cannot connect to the Docker daemon at unix:/var/run/docker.sock. Is the docker daemon running?","<linux><ubuntu><docker><ubuntu-14.04>","38","14","71","","","CC BY-SA 3.0"
+"21553353","1","21564990","","2014-02-04 13:04:23","","2062","618197","<p>In Dockerfiles there are two commands that look similar to me: <code>CMD</code> and <code>ENTRYPOINT</code>. But I guess that there is a (subtle?) difference between them - otherwise it would not make any sense to have two commands for the very same thing.</p>
+
+<p>The documentation states for <code>CMD</code></p>
+
+<blockquote>
+  <p>The main purpose of a CMD is to provide defaults for an executing container.</p>
+</blockquote>
+
+<p>and for <code>ENTRYPOINT</code>:</p>
+
+<blockquote>
+  <p>An ENTRYPOINT helps you to configure a container that you can run as an executable.</p>
+</blockquote>
+
+<p>So, what's the difference between those two commands?</p>
+","1333873","","39726","","2014-02-04 17:13:41","2021-05-28 13:51:58","What is the difference between CMD and ENTRYPOINT in a Dockerfile?","<docker>","17","6","600","","","CC BY-SA 3.0"
+"26504846","1","26504961","","2014-10-22 09:56:24","","460","602429","<p>I have read <a href=""http://docs.docker.com/engine/reference/builder/#add"" rel=""noreferrer"">http://docs.docker.com/engine/reference/builder/#add</a> however I met a problem. I want to copy the local directory <code>go</code> to docker <code>/user/local/</code></p>
+<p>I tried:</p>
+<pre><code>ADD go /usr/local/
+</code></pre>
+<p>and:</p>
+<pre><code>ADD /go/ /usr/local/ 
+</code></pre>
+<p>also:</p>
+<pre><code>RUN chmod 0755 /usr/local/go/src/make.bash
+</code></pre>
+<p>However, I see the following error message:</p>
+<pre><code>/usr/local/go/src/make.bash: No such file or directory
+</code></pre>
+<p>but the local <code>go</code> directory does contain <code>make.bash</code>.</p>
+","233618","","6862601","","2021-01-28 23:38:30","2021-01-28 23:38:30","Copy directory to another directory using ADD command","<docker>","3","0","60","","","CC BY-SA 4.0"
+"26153686","1","27708039","","2014-10-02 02:34:25","","537","593730","<p>I created a container with <code>-d</code> so it's not interactive.</p>
+
+<pre><code>docker run -d shykes/pybuilder bin/bash
+</code></pre>
+
+<p>I see that the container has exited:</p>
+
+<pre><code>CONTAINER ID        IMAGE                     COMMAND             CREATED             STATUS                      PORTS               NAMES
+d6c45e8cc5f0        shykes/pybuilder:latest   ""bin/bash""          41 minutes ago      Exited (0) 2 seconds ago                        clever_bardeen
+</code></pre>
+
+<p>Now I would like to run occasional commands on the machine and exit. Just to get the response.</p>
+
+<p>I tried to start the machine. I tried attaching. I thought I could call <code>run</code> with a container, but that does not seem to be allowed. Using <code>start</code> just seems to run and then exist quickly.</p>
+
+<p>I'd like to get back into interactive mode after exiting.</p>
+
+<p>I tried:</p>
+
+<pre><code>docker attach d6c45e8cc5f0
+</code></pre>
+
+<p>But I get:</p>
+
+<pre><code>2014/10/01 22:33:34 You cannot attach to a stopped container, start it first
+</code></pre>
+
+<p>But if I start it, it exits anyway. Catch 22. I can't win.</p>
+","974407","","63550","","2017-03-13 19:10:24","2020-05-27 06:47:45","How do I run a command on an already existing Docker container?","<docker>","19","3","135","","","CC BY-SA 3.0"
+"30063907","1","30064175","","2015-05-05 21:53:37","","656","577927","<p>I want to do something like this where I can run multiple commands in order.</p>
+<pre class=""lang-yaml prettyprint-override""><code>db:
+  image: postgres
+web:
+  build: .
+  command: python manage.py migrate
+  command: python manage.py runserver 0.0.0.0:8000
+  volumes:
+    - .:/code
+  ports:
+    - &quot;8000:8000&quot;
+  links:
+    - db
+</code></pre>
+","2587797","","1402846","","2020-09-08 06:36:26","2021-01-29 22:51:34","Using Docker-Compose, how to execute multiple commands","<docker><yaml><docker-compose>","16","0","163","","","CC BY-SA 4.0"
+"19335444","1","38783433","","2013-10-12 14:46:18","","555","561863","<p>I'm not sure if I've misunderstood something here, but it seems like it's only possible to set port mappings by creating a new container from an image. Is there a way to assign a port mapping to an existing Docker container?</p>
+","455988","","63550","","2017-03-12 13:28:26","2021-06-17 00:14:38","How do I assign a port mapping to an existing Docker container?","<docker><port><lxc><linux-containers>","14","4","217","","","CC BY-SA 3.0"
+"30209776","1","30209974","","2015-05-13 08:41:06","","423","552640","<p>According to tutorial I read so far, use ""<code>docker run -d</code>"" will start a container from image, and the container will run in background. This is how it looks like, we can see we already have container id.</p>
+
+<pre><code>root@docker:/home/root# docker run -d centos
+605e3928cdddb844526bab691af51d0c9262e0a1fc3d41de3f59be1a58e1bd1d
+</code></pre>
+
+<p>But if I ran ""<strong><code>docker ps</code></strong>"", nothing was returned.</p>
+
+<p>So I tried ""<strong><code>docker ps -a</code></strong>"", I can see container already exited:</p>
+
+<pre><code>root@docker:/home/root# docker ps -a
+CONTAINER ID        IMAGE                 COMMAND             CREATED             STATUS                         PORTS               NAMES
+605e3928cddd        centos:latest         ""/bin/bash""         31 minutes ago      Exited (0) 31 minutes ago                          kickass_swartz
+</code></pre>
+
+<p>Anything I did wrong? How can I troubleshoot this issue?</p>
+","4414185","","6309","","2015-05-13 08:55:15","2021-06-20 08:33:54","Docker container will automatically stop after ""docker run -d""","<docker>","18","2","136","","","CC BY-SA 3.0"
+"31251356","1","31750543","","2015-07-06 16:47:39","","256","539688","<p>I'm using docker registry v1 and I'm interested in migrating to the newer version, v2. But I need some way to get a list of images present on registry; for example with registry v1 I can execute a GET request to <code>http://myregistry:5000/v1/search?</code> and the result is:</p>
+
+<pre><code>{
+  ""num_results"": 2,
+  ""query"": """",
+  ""results"": [
+    {
+      ""description"": """",
+      ""name"": ""deis/router""
+    },
+    {
+      ""description"": """",
+      ""name"": ""deis/database""
+    }
+  ]
+}
+</code></pre>
+
+<p>But I can't find on <a href=""https://docs.docker.com/registry/spec/api/"" rel=""noreferrer"">official documentation</a> something similar to get a list of image on registry. Anybody knows a way to do it on new version v2?</p>
+","896830","","1736679","","2016-06-27 06:28:22","2021-04-20 14:00:03","How to get a list of images on docker registry v2","<docker><docker-registry>","16","2","78","","","CC BY-SA 3.0"
+"23111631","1","28093517","","2014-04-16 13:58:32","","349","521381","<p>I installed Docker on my Ubuntu 13.10 (Saucy Salamander) and when I type in my console:</p>
+
+<pre><code>sudo docker pull busybox
+</code></pre>
+
+<p>I get the following error:</p>
+
+<pre><code>Pulling repository busybox
+2014/04/16 09:37:07 Get https://index.docker.io/v1/repositories/busybox/images: dial tcp: lookup index.docker.io on 127.0.1.1:53: no answer from server
+</code></pre>
+
+<p>Docker version:</p>
+
+<pre><code>$ sudo docker version
+
+Client version: 0.10.0
+Client API version: 1.10
+Go version (client): go1.2.1
+Git commit (client): dc9c28f
+Server version: 0.10.0
+Server API version: 1.10
+Git commit (server): dc9c28f
+Go version (server): go1.2.1
+Last stable version: 0.10.0
+</code></pre>
+
+<p>I am behind a proxy server with no authentication, and this is my <code>/etc/apt/apt.conf</code> file:</p>
+
+<pre><code>Acquire::http::proxy ""http://192.168.1.1:3128/"";
+Acquire::https::proxy ""https://192.168.1.1:3128/"";
+Acquire::ftp::proxy ""ftp://192.168.1.1:3128/"";
+Acquire::socks::proxy ""socks://192.168.1.1:3128/"";
+</code></pre>
+
+<p>What am I doing wrong?</p>
+","2172151","","63550","","2018-09-19 16:43:15","2021-06-12 18:17:08","Cannot download Docker images behind a proxy","<proxy><docker>","27","3","185","","","CC BY-SA 4.0"
+"39901311","1","39901446","","2016-10-06 16:33:07","","435","506333","<p>I've got a Docker container running Ubuntu which I did as follows:</p>
+
+<pre><code>docker run -it ubuntu /bin/bash
+</code></pre>
+
+<p>however it doesn't seem to have <code>ping</code>. E.g.</p>
+
+<pre><code>bash: ping: command not found
+</code></pre>
+
+<p>Do I need to install that?</p>
+
+<p>Seems a pretty basic command to be missing. I tried <code>whereis ping</code> which doesn't report anything.</p>
+","343204","","","","","2020-03-23 08:09:18","Docker - Ubuntu - bash: ping: command not found","<ubuntu><docker><ping>","7","2","61","","","CC BY-SA 3.0"
+"30853247","1","30859601","","2015-06-15 19:15:56","","622","504666","<p>I successfully shelled to a Docker container using:</p>
+
+<pre><code>docker exec -i -t 69f1711a205e bash
+</code></pre>
+
+<p>Now I need to edit file and I don't have any editors inside:</p>
+
+<pre><code>root@69f1711a205e:/# nano
+bash: nano: command not found
+root@69f1711a205e:/# pico
+bash: pico: command not found
+root@69f1711a205e:/# vi
+bash: vi: command not found
+root@69f1711a205e:/# vim
+bash: vim: command not found
+root@69f1711a205e:/# emacs
+bash: emacs: command not found
+root@69f1711a205e:/#
+</code></pre>
+
+<p>How do I edit files?</p>
+","1268964","","3539857","","2020-02-23 16:22:58","2021-05-31 07:53:38","How do I edit a file after I shell to a Docker container?","<docker>","18","6","154","","","CC BY-SA 4.0"
+"26734402","1","","","2014-11-04 11:48:22","","583","496115","<p>Let's say I have pulled the official <a href=""https://registry.hub.docker.com/_/mysql/"" rel=""noreferrer"">mysql:5.6.21 image</a>. </p>
+
+<p>I have deployed this image by creating several docker containers.</p>
+
+<p>These containers have been running for some time until MySQL 5.6.22 is released. The official image of mysql:5.6 gets updated with the new release, but my containers still run 5.6.21.</p>
+
+<p>How do I propagate the changes in the image (i.e. upgrade MySQL distro) to all my existing containers? What is the proper Docker way of doing this?</p>
+","697313","","2769180","","2016-09-27 22:15:43","2020-05-21 16:20:20","How to upgrade docker container after its image changed","<docker>","13","1","199","","","CC BY-SA 3.0"
+"28349392","1","28349540","","2015-02-05 16:42:49","","488","480535","<p>I have a docker image tagged as <code>me/my-image</code>, and I have a private repo on the dockerhub named <code>me-private</code>.<br>
+When I push my <code>me/my-image</code>, I end up always hitting the public repo.</p>
+
+<p>What is the exact syntax to specifically push my image to my private repo? </p>
+","518012","","448591","","2020-04-29 17:40:52","2021-02-14 17:11:22","How to push a docker image to a private repository","<docker><docker-registry>","10","4","157","","","CC BY-SA 4.0"
+"22944631","1","24716645","","2014-04-08 17:53:32","","426","466974","<p>As the title says. I need to be able to retrieve the IP address the docker hosts and the portmaps from the host to the container, and doing that inside of the container. </p>
+","335918","","1429387","","2018-03-13 07:47:12","2021-05-07 11:23:52","How to get the IP address of the docker host from inside a docker container","<docker><ip>","26","2","153","","","CC BY-SA 3.0"
+"19897743","1","19905563","","2013-11-11 02:00:56","","437","461060","<p>I'm trying to create a Docker container that acts like a full-on virtual machine. I know I can use the EXPOSE instruction inside a Dockerfile to expose a port, and I can use the <code>-p</code> flag with <code>docker run</code> to assign ports, but once a container is actually running, is there a command to open/map additional ports live?</p>
+
+<p>For example, let's say I have a Docker container that is running sshd. Someone else using the container ssh's in and installs httpd. Is there a way to expose port 80 on the container and map it to port 8080 on the host, so that people can visit the web server running in the container, without restarting it?</p>
+","2079798","","63550","","2017-03-12 13:26:36","2021-01-31 13:26:50","Exposing a port on a live Docker container","<docker>","16","1","181","","","CC BY-SA 3.0"
+"20932357","1","26496854","","2014-01-05 10:13:41","","595","454304","<p>I have a container that is running the Apache service in the foreground. I would like to be able to access the container from another shell in order to ""poke around"" inside it and examine the files. At the moment, if I attach to the container, I am left looking at the Apache daemon and cannot run any commands.</p>
+
+<p>Is it possible to attach another tty to a running container? Possibly, I can take advantage of the fact that Docker is actually just wrapping around LXC containers? I have tried <code>sudo lxc-console -n [container-id] -t [1-4]</code> but it appears that only one tty is made available and that is the one running the apache daemon. Perhaps there is a way to enable multiple lxc consoles during the build?</p>
+
+<p>I would rather <strong>not</strong> configure and build the container with an openssh service if possible.</p>
+","1385833","","4802075","","2018-04-20 01:42:17","2021-03-09 22:33:19","How to enter in a Docker container already running with a new TTY","<docker><tty>","11","3","170","","","CC BY-SA 3.0"
+"32723111","1","32723127","","2015-09-22 17:23:37","","863","452054","<p>When running Docker for a long time, there are a lot of images in system. How can I remove all unused Docker images at once safety to free up the storage?</p>
+
+<p>In addition, I also want to remove images pulled months ago, which have the correct <code>TAG</code>.</p>
+
+<p>So, I'm not asking for removing untagged images only. I'm searching for a way to remove general unused images, which includes both untagged and other images such as pulled months ago with correct <code>TAG</code>.</p>
+","622662","","4671027","","2019-08-02 08:28:34","2021-06-14 18:53:04","How to remove old and unused Docker images","<docker><docker-image>","27","0","333","","","CC BY-SA 4.0"
+"48957195","1","48957722","","2018-02-23 22:38:58","","552","438241","<p>I installed Docker in my machine where I have Ubuntu OS.<br />
+When I run:</p>
+<pre><code>sudo docker run hello-world
+</code></pre>
+<p>All is ok, but I want to hide the word <code>sudo</code> to make more short the command.<br />
+If I write the command without the word <code>sudo</code></p>
+<pre><code>docker run hello-world
+</code></pre>
+<p>That displays the following:</p>
+<pre><code>docker: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.35/containers/create: dial unix /var/run/docker.sock: connect: permission denied. See 'docker run --help'.
+</code></pre>
+<p>It has happened the same when I try to make:</p>
+<pre><code>docker-compose up
+</code></pre>
+<p>How can I resolve this?</p>
+","7288685","","2506522","","2021-05-17 13:18:38","2021-06-13 05:31:52","How to fix docker: Got permission denied issue","<docker><docker-compose>","27","4","150","","","CC BY-SA 4.0"
+"25211198","1","25214186","","2014-08-08 19:48:36","","691","433317","<p>I'm trying to change repository name of the image:</p>
+
+<pre><code>REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+server              latest              d583c3ac45fd        26 minutes ago      685.5 MB
+</code></pre>
+
+<p>Hence I want to change the name <code>server</code> to something like <code>myname/server</code>:</p>
+
+<pre><code>REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+myname/server       latest              d583c3ac45fd        26 minutes ago      685.5 MB
+</code></pre>
+
+<p>How can I do this?</p>
+","1349754","","1349754","","2015-01-04 09:56:01","2021-06-28 07:00:57","Docker how to change repository name or rename image?","<docker><linux-containers>","11","4","144","","","CC BY-SA 3.0"
+"41984399","1","41984666","","2017-02-01 16:08:53","","528","430925","<p>I am following <a href=""https://docs.docker.com/engine/getstarted/step_four/"" rel=""noreferrer"">this link</a> to create my first docker Image and it went successfully and now I am trying to push this Image into my docker repository from this <a href=""https://docs.docker.com/engine/getstarted/step_six/"" rel=""noreferrer"">link</a>. But whenever I am trying to push this Image into repository , I  got this type of error. </p>
+
+<pre><code>denied: requested access to the resource is denied
+</code></pre>
+
+<p><a href=""https://i.stack.imgur.com/GCu19.png"" rel=""noreferrer""><img src=""https://i.stack.imgur.com/GCu19.png"" alt=""enter image description here""></a></p>
+
+<p>Could anyone give me some hint towards this problem ? Any help would appreciated.</p>
+
+<p>Note: I have successfully login into docker </p>
+","2693841","","","","","2021-05-17 07:37:10","denied: requested access to the resource is denied : docker","<docker><dockerfile>","53","3","104","","","CC BY-SA 3.0"
+"36884991","1","","","2016-04-27 08:57:50","","359","430913","<p>There are scope of services which defined in docker-compose.yml. These service have been started. I need to rebuild only one of these and start it without up other services.
+I run the following commands:</p>
+
+<pre><code>docker-compose up -d # run all services
+docker-compose stop nginx # stop only one. but it still running !!!
+docker-compose build --no-cache nginx 
+docker-compose up -d --no-deps # link nginx to other services
+</code></pre>
+
+<p>At the end i got old nginx container.
+By the way docker-compose doesn't kill all running containers !</p>
+","2207007","","2207007","","2017-08-28 09:20:23","2020-07-31 19:10:42","How to rebuild docker container in docker-compose.yml?","<docker><docker-compose><docker-container>","10","4","101","","","CC BY-SA 3.0"
+"37458287","1","37458519","","2016-05-26 10:32:53","","369","427285","<p>I am trying to run a cronjob inside a docker container that invokes a shell script.</p>
+
+<p>Yesterday I have been searching all over the web and stack overflow, but I could not really find a solution that works.<br>
+How can I do this?</p>
+
+<p><strong>EDIT:</strong></p>
+
+<p>I've created a <a href=""https://github.com/cheyer/docker-cron"" rel=""noreferrer"">(commented) github repository</a> with a working docker cron container that invokes a shell script at given interval.</p>
+","6268839","","6268839","","2016-05-26 14:24:07","2021-06-27 23:59:26","How to run a cron job inside a docker container?","<docker><cron><containers><sh>","22","0","181","","","CC BY-SA 3.0"
+"31697828","1","","","2015-07-29 10:26:10","","514","415008","<p>Running the <code>docker</code> registry with below command always throws an error:</p>
+
+<pre><code>dev:tmp me$ docker run \
+     -d --name registry-v1 \
+     -e SETTINGS_FLAVOR=local \
+     -e STORAGE_PATH=/registry \
+     -e SEARCH_BACKEND=sqlalchemy \
+     -e LOGLEVEL=DEBUG \
+     -p 5000:5000 \
+     registry:0.9.1
+Error response from daemon: Conflict. The name ""registry-v1"" is already in use by container f9e5798a82e0. You have to delete (or rename) that container to be able to reuse that name.
+</code></pre>
+
+<p><strong>How to prevent this error ?</strong></p>
+","355281","","10907864","","2021-03-03 04:16:40","2021-07-01 16:34:23","Docker - Name is already in use by container","<docker>","19","0","80","","","CC BY-SA 4.0"
+"27701930","1","27703359","","2014-12-30 08:26:07","","358","413016","<p>I have a docker container with some processes (uwsgi and celery) running inside. I want to create a celery user and a uwsgi user for these processes as well as a worker group that they will both belong to, in order to assign permissions. </p>
+
+<p>I tried adding <code>RUN adduser uwsgi</code> and <code>RUN adduser celery</code> to my Dockerfile, but this is causing problems, since these commands prompt for input (I've posted the responses from the build below). </p>
+
+<p>What is the best way to add users to a Docker container so as to set permissions for workers running in the container?</p>
+
+<p>My Docker image is built from the official Ubuntu14.04 base.</p>
+
+<p>Here is the output from the Dockerfile when the adduser commands are run:</p>
+
+<pre><code>Adding user `uwsgi' ...
+Adding new group `uwsgi' (1000) ... 
+Adding new user `uwsgi' (1000) with group `uwsgi' ... 
+Creating home directory `/home/uwsgi' ...
+Copying files from `/etc/skel' ... 
+[91mEnter new UNIX password: Retype new UNIX password: [0m 
+[91mpasswd: Authentication token manipulation error
+passwd: password unchanged
+[0m 
+[91mUse of uninitialized value $answer in chop at /usr/sbin/adduser line 563.
+[0m 
+[91mUse of uninitialized value $answer in pattern match (m//) at /usr/sbin/adduser line 564.
+[0m 
+Try again? [y/N] 
+Changing the user information for uwsgi
+Enter the new value, or press ENTER for the default
+    Full Name []: 
+Room Number []:     Work Phone []:  Home Phone []:  Other []: 
+[91mUse of uninitialized value $answer in chop at /usr/sbin/adduser line 589.
+[0m 
+[91mUse of uninitialized value $answer in pattern match (m//) at /usr/sbin/adduser line 590.
+[0m 
+Is the information correct? [Y/n] 
+---&gt; 258f2f2f13df 
+Removing intermediate container 59948863162a 
+Step 5 : RUN adduser celery 
+---&gt; Running in be06f1e20f64 
+Adding user `celery' ...
+Adding new group `celery' (1001) ... 
+Adding new user `celery' (1001) with group `celery' ... 
+Creating home directory `/home/celery' ...
+Copying files from `/etc/skel' ... 
+[91mEnter new UNIX password: Retype new UNIX password: [0m 
+[91mpasswd: Authentication token manipulation error
+passwd: password unchanged
+[0m 
+[91mUse of uninitialized value $answer in chop at /usr/sbin/adduser line 563.
+[0m 
+[91mUse of uninitialized value $answer in pattern match (m//) at /usr/sbin/adduser line 564.
+[0m 
+Try again? [y/N] 
+Changing the user information for celery
+Enter the new value, or press ENTER for the default
+    Full Name []:   Room Number []:     Work Phone []: 
+Home Phone []:  Other []: 
+[91mUse of uninitialized value $answer in chop at /usr/sbin/adduser line 589.
+[0m 
+[91mUse of uninitialized value $answer in pattern match (m//) at /usr/sbin/adduser line 590.
+[0m 
+Is the information correct? [Y/n] 
+</code></pre>
+","2686639","","7940996","","2020-05-26 02:55:03","2020-05-26 02:55:03","How to add users to Docker container?","<linux><ubuntu><dockerfile>","8","0","108","","","CC BY-SA 4.0"
+"19688314","1","19689048","","2013-10-30 16:20:14","","517","409332","<p>I can attach to a docker process but <kbd>Ctrl</kbd>+<kbd>c</kbd> doesn't work to detach from it. <code>exit</code> basically halts the process. </p>
+
+<p>What's the recommended workflow to have the process running, occasionally attaching to it to make some changes, and then detaching?</p>
+","671573","","33204","","2014-10-17 14:22:03","2020-07-01 18:36:26","How do you attach and detach from Docker's process?","<docker>","15","2","169","","","CC BY-SA 3.0"
+"16647069","1","16761439","","2013-05-20 10:05:25","","2140","407093","<p>I use Ubuntu for development and deployment and have a need for creating an isolated environment. </p>
+
+<p>I am considering either Vagrant or Docker for this purpose. What are the pros and cons, or how do these solutions compare?</p>
+","780799","","63550","","2016-12-24 22:57:52","2018-11-08 20:22:37","Should I use Vagrant or Docker for creating an isolated environment?","<vagrant><docker>","10","4","1345","2017-05-11 07:20:10","","CC BY-SA 3.0"
+"27158840","1","27615958","","2014-11-26 21:03:44","","258","396966","<p>I have a docker image which installs <code>grunt</code>, but when I try to run it, I get an error:  </p>
+
+<pre><code>Error response from daemon: Cannot start container foo_1: \
+    exec: ""grunt serve"": executable file not found in $PATH
+</code></pre>
+
+<p>If I run bash in interactive mode, <code>grunt</code> is available.</p>
+
+<p>What am I doing wrong?</p>
+
+<p>Here is my Dockerfile:</p>
+
+<pre><code># https://registry.hub.docker.com/u/dockerfile/nodejs/ (builds on ubuntu:14.04)
+FROM dockerfile/nodejs
+
+MAINTAINER My Name, me@email.com
+
+ENV HOME /home/web
+WORKDIR /home/web/site
+
+RUN useradd web -d /home/web -s /bin/bash -m
+
+RUN npm install -g grunt-cli
+RUN npm install -g bower
+
+RUN chown -R web:web /home/web
+USER web
+
+RUN git clone https://github.com/repo/site /home/web/site
+
+RUN npm install
+RUN bower install --config.interactive=false --allow-root
+
+ENV NODE_ENV development
+
+# Port 9000 for server
+# Port 35729 for livereload
+EXPOSE 9000 35729
+CMD [""grunt""]
+</code></pre>
+","955273","","955273","","2014-11-26 21:18:01","2020-09-10 10:44:48","docker: executable file not found in $PATH","<docker>","10","7","42","","","CC BY-SA 3.0"
+"31324981","1","31328031","","2015-07-09 18:01:28","","432","395420","<p>I have a docker container running jenkins. As part of the build process, I need to access a web server that is run locally on the host machine. Is there a way the host web server (which can be configured to run on a port) can be exposed to the jenkins container?</p>
+
+<p>EDIT: I'm running docker natively on a Linux machine.</p>
+
+<p>UPDATE:</p>
+
+<p>In addition to @larsks answer below, to get the IP address of the Host IP from the host machine, I do the following:</p>
+
+<pre><code>ip addr show docker0 | grep -Po 'inet \K[\d.]+'
+</code></pre>
+","1368032","","4671027","","2018-02-15 12:41:13","2021-04-26 19:01:19","How to access host port from docker container","<docker><docker-container>","16","8","154","","","CC BY-SA 3.0"
+"30604846","1","","","2015-06-02 19:23:55","","484","390247","<p>I installed docker on a Debian 7 machine in the following way </p>
+
+<pre><code>$ echo deb http://get.docker.io/ubuntu docker main &gt; /etc/apt/sources.list.d/docker.list
+$ sudo apt-get update
+$ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
+</code></pre>
+
+<p>After that when I first tried creating an Image it failed with the following error</p>
+
+<pre><code> time=""2015-06-02T14:26:37-04:00"" level=info msg=""[8] System error: write /sys/fs/cgroup/docker/01f5670fbee1f6687f58f3a943b1e1bdaec2630197fa4da1b19cc3db7e3d3883/cgroup.procs: no space left on device""
+</code></pre>
+
+<p>Here is the docker info </p>
+
+<pre><code>Containers: 2
+Images: 21
+Storage Driver: aufs
+Root Dir: /var/lib/docker/aufs
+Backing Filesystem: extfs
+Dirs: 25
+Dirperm1 Supported: true
+Execution Driver: native-0.2
+Kernel Version: 3.16.0-0.bpo.4-amd64
+Operating System: Debian GNU/Linux 7 (wheezy)
+CPUs: 2
+ Total Memory: 15.7 GiB
+
+
+WARNING: No memory limit support
+ WARNING: No swap limit support
+</code></pre>
+
+<p>How can I increase the memory? Where are the system configurations stored?</p>
+
+<p>From Kal's suggestions:</p>
+
+<p>When I got rid of all the images and containers it did free some space and the image build ran longer before failing with the same error. So the question is, which space is this referring to and how do I configure it?</p>
+","3987161","","1081801","","2018-04-17 03:38:57","2021-05-30 13:51:44","Docker error : no space left on device","<ubuntu><memory><docker><temp>","28","4","167","","","CC BY-SA 3.0"
+"25845538","1","25908200","","2014-09-15 10:07:35","","345","389709","<p>Normally, docker containers are run using the user <strong>root</strong>. I'd like to use a different user, which is no problem using docker's USER directive. But this user should be able to use <strong>sudo</strong> inside the container. This command is missing.</p>
+
+<p>Here's a simple Dockerfile for this purpose:</p>
+
+<pre><code>FROM ubuntu:12.04
+
+RUN useradd docker &amp;&amp; echo ""docker:docker"" | chpasswd
+RUN mkdir -p /home/docker &amp;&amp; chown -R docker:docker /home/docker
+
+USER docker
+CMD /bin/bash
+</code></pre>
+
+<p>Running this container, I get logged in with user 'docker'. When I try to use sudo, the command isn't found. So I tried to install the <em>sudo</em> package inside my Dockerfile using </p>
+
+<pre><code>RUN apt-get install sudo
+</code></pre>
+
+<p>This results in <em>Unable to locate package sudo</em></p>
+","4042051","","895245","","2018-04-07 18:13:19","2021-05-08 22:26:47","How to use sudo inside a docker container?","<docker><sudo><linux-containers>","12","1","96","","","CC BY-SA 3.0"
+"38986057","1","38986676","","2016-08-16 23:37:34","","398","385283","<p>You can set image name when building a custom image, like this:</p>
+
+<pre><code>docker build -t dude/man:v2 . # Will be named dude/man:v2
+</code></pre>
+
+<p>Is there a way to define the name of the image in Dockerfile, so I don't have to mention it in the <code>docker build</code> command?</p>
+","1542343","","821436","","2019-01-22 12:55:36","2021-04-30 10:12:27","How to set image name in Dockerfile?","<docker><tags><dockerfile>","4","1","56","","","CC BY-SA 3.0"
+"27937185","1","","","2015-01-14 06:45:48","","237","377346","<p>I'm now trying to assign a static IP 172.17.0.1 when a Docker container be started up. </p>
+
+<p>I use port 2122 as the ssh port of this container so that I let this container listen port 2122.</p>
+
+<pre><code>sudo docker run -i -t -p 2122:2122 ubuntu
+</code></pre>
+
+<p>This command will run a Docker container with a random IP like 172.17.0.5, but I need to assign a specific IP to the container.</p>
+
+<p>The following shell script is what I reference Docker documentation in advanced network settings.</p>
+
+<pre><code>pid=$(sudo docker inspect -f '{{.State.Pid}}' &lt;container_name&gt; 2&gt;/dev/null)
+sudo rm -rf /var/run/netns/*
+sudo ln -s /proc/$pid/ns/net /var/run/netns/$pid
+sudo ip link add A type veth peer name B
+sudo brctl addif docker0 A
+sudo ip link set A up
+sudo ip link set B netns $pid
+sudo ip netns exec $pid ip link set eth0 down
+sudo ip netns exec $pid ip link delete eth0
+sudo ip netns exec $pid ip link set dev B name eth0
+sudo ip netns exec $pid ip link set eth0 address 12:34:56:78:9a:bc
+sudo ip netns exec $pid ip link set eth0 down
+sudo ip netns exec $pid ip link set eth0 up
+sudo ip netns exec $pid ip addr add 172.17.0.1/16 dev eth0
+sudo ip netns exec $pid ip route add default via 172.17.42.1
+</code></pre>
+
+<p>This shell script will assign a static IP 172.17.0.1 and link to the world fine. But whenever I try to ssh to this container from my local, it didn't work. What's the problem possibly I met?</p>
+","3349245","","1718174","","2016-07-01 16:49:50","2020-12-15 15:41:57","Assign static IP to Docker container","<docker>","8","7","116","","","CC BY-SA 3.0"
+"43099116","1","43099210","","2017-03-29 16:26:14","","594","366454","<p>I am running the following command from my <code>Jenkinsfile</code>. However, I get the error <em>""The input device is not a TTY""</em>.</p>
+
+<pre><code>docker run -v $PWD:/foobar -it cloudfoundry/cflinuxfs2 /foobar/script.sh
+</code></pre>
+
+<p>Is there a way to run the script from the <code>Jenkinsfile</code> without doing interactive mode?</p>
+
+<p>I basically have a file called <code>script.sh</code> that I would like to run inside the Docker container.</p>
+","654203","","63550","","2018-07-21 18:43:14","2021-06-26 00:20:33","Error ""The input device is not a TTY""","<docker><jenkins><jenkins-pipeline>","13","2","79","","","CC BY-SA 4.0"
+"28212380","1","28214133","","2015-01-29 10:30:21","","306","366393","<p>I run a container in the background using</p>
+
+<pre><code> docker run -d --name hadoop h_Service
+</code></pre>
+
+<p>it exits quickly. But if I run in the foreground, it works fine. I checked logs using</p>
+
+<pre><code>docker logs hadoop
+</code></pre>
+
+<p>there was no error. Any ideas?</p>
+
+<p><strong>DOCKERFILE</strong></p>
+
+<pre><code> FROM java_ubuntu_new
+ RUN wget http://archive.cloudera.com/cdh4/one-click-install/precise/amd64/cdh4-repository_1.0_all.deb
+ RUN dpkg -i cdh4-repository_1.0_all.deb
+ RUN curl -s http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh/archive.key | apt-key add -
+ RUN  apt-get update
+ RUN apt-get install -y hadoop-0.20-conf-pseudo
+ RUN dpkg -L hadoop-0.20-conf-pseudo
+ USER hdfs
+ RUN hdfs namenode -format
+ USER root
+ RUN apt-get install -y sudo
+ ADD . /usr/local/
+ RUN chmod 777 /usr/local/start-all.sh
+ CMD [""/usr/local/start-all.sh""]
+</code></pre>
+
+<p>start-all.sh</p>
+
+<pre><code> #!/usr/bin/env bash
+ /etc/init.d/hadoop-hdfs-namenode start
+ /etc/init.d/hadoop-hdfs-datanode start
+ /etc/init.d/hadoop-hdfs-secondarynamenode start
+ /etc/init.d/hadoop-0.20-mapreduce-tasktracker start
+ sudo -u hdfs hadoop fs -chmod 777 /
+ /etc/init.d/hadoop-0.20-mapreduce-jobtracker start
+ /bin/bash
+</code></pre>
+","2694184","","1718174","","2017-02-01 03:01:14","2021-05-31 17:26:41","Why docker container exits immediately","<docker>","16","2","81","","","CC BY-SA 3.0"
+"23735149","1","23736802","","2014-05-19 10:15:27","","1066","365069","<p>When using Docker, we start with a base image. We boot it up, create changes and those changes are saved in layers forming another image.</p>
+
+<p>So eventually I have an image for my PostgreSQL instance and an image for my web application, changes to which keep on being persisted.</p>
+
+<p>What is a container?</p>
+","84143","","63550","","2019-11-11 14:17:24","2021-04-06 19:52:16","What is the difference between a Docker image and a container?","<docker><docker-container><docker-image>","28","0","353","","","CC BY-SA 4.0"
+"42248198","1","42260979","","2017-02-15 11:33:27","","343","357349","<p>I am trying to dockerize a PHP application. In the dockerfile, I download the archive, extract it, etc.</p>
+<p>Everything works fine. However, if a new version gets released and I update the dockerfile, I have to reinstall the application, because the config.php gets overwritten.</p>
+<p>So I thought I can mount the file as a volume, like I do with the database.</p>
+<p>I tried it two ways, with a volume and a direct path.</p>
+<p>docker-compose:</p>
+<pre class=""lang-yaml prettyprint-override""><code>version: '2'
+services:
+  app:
+    build: src
+    ports:
+      - &quot;8080:80&quot;
+    depends_on:
+      - mysql
+    volumes:
+      -  app-conf:/var/www/html/upload
+      -  app-conf:/var/www/html/config.php
+    environment:
+      DB_TYPE: mysql
+      DB_MANAGER: MysqlManager
+
+  mysql:
+    image: mysql:5.6
+    container_name: mysql
+    volumes:
+      - mysqldata:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+
+volumes:
+  mysqldata:
+  app-conf:
+</code></pre>
+<p>Which results in the error:</p>
+<p>And I tried it with a given path, as a mounted volume.</p>
+<pre><code>/src/docker/myapp/upload:/var/www/html/upload
+/src/docker/myapp/upload:/var/www/html/config.php
+</code></pre>
+<p>However, both ways are not working. With the mounted volume, I see that upload gets created.</p>
+<p>But then it fails with:</p>
+<blockquote>
+<p>/var/www/html/config.php\&quot; caused \&quot;not a directory\&quot;&quot;&quot;</p>
+</blockquote>
+<p>If I try it with</p>
+<pre><code>/src/docker/myapp/upload/config.php:/var/www/html/config.php
+</code></pre>
+<p>Docker creates the upload folder and then a config.php folder. Not a file.</p>
+<p>Or is there another way to persist the config?</p>
+","3791380","","1402846","","2020-10-06 00:19:11","2021-04-21 13:28:31","How to mount a single file in a volume","<docker><docker-compose>","15","1","52","","","CC BY-SA 4.0"
+"20845056","1","20851484","","2013-12-30 18:13:44","","557","355278","<p>So I have 3 ports that should be exposed to the machine's interface. Is it possible to do this with a Docker container?</p>
+","118644","","3340702","","2017-10-09 15:58:55","2021-02-09 10:54:39","How can I expose more than 1 port with Docker?","<docker><docker-networking>","5","1","109","","","CC BY-SA 3.0"
+"42510002","1","42510314","","2017-02-28 13:25:28","","313","350260","<p>I use <code>docker logs [container-name]</code> to see the logs of a specific container.</p>
+
+<p>Is there an elegant way to clear these logs?</p>
+","6288254","","63550","","2018-07-24 16:13:54","2021-05-03 13:06:09","How to clear the logs properly for a Docker container?","<docker><docker-compose><boot2docker><docker-machine>","19","2","102","","","CC BY-SA 4.0"
+"18136389","1","18138352","","2013-08-08 21:23:00","","394","349481","<p>I have an app that executes various fun stuff with Git (like running git clone &amp; git push) and I'm trying to docker-ize it.</p>
+
+<p>I'm running into an issue though where I need to be able to add an SSH key to the container for the container 'user' to use.</p>
+
+<p>I tried copying it into <code>/root/.ssh/</code>, changing <code>$HOME</code>, creating a git ssh wrapper, and still no luck. </p>
+
+<p>Here is the Dockerfile for reference:</p>
+
+<pre><code>#DOCKER-VERSION 0.3.4                                                           
+
+from  ubuntu:12.04                                                              
+
+RUN  apt-get update                                                             
+RUN  apt-get install python-software-properties python g++ make git-core openssh-server -y
+RUN  add-apt-repository ppa:chris-lea/node.js                                   
+RUN  echo ""deb http://archive.ubuntu.com/ubuntu precise universe"" &gt;&gt; /etc/apt/sources.list
+RUN  apt-get update                                                             
+RUN  apt-get install nodejs -y                                                  
+
+ADD . /src                                                                       
+ADD ../../home/ubuntu/.ssh/id_rsa /root/.ssh/id_rsa                             
+RUN   cd /src; npm install                                                      
+
+EXPOSE  808:808                                                                 
+
+CMD   [ ""node"", ""/src/app.js""]
+</code></pre>
+
+<p><code>app.js</code> runs the git commands like <code>git pull</code></p>
+","930005","","562769","","2017-12-22 09:54:04","2021-04-22 15:37:51","Using SSH keys inside docker container","<ssh-keys><docker>","34","2","149","","","CC BY-SA 3.0"
+"16296753","1","16311264","","2013-04-30 09:40:54","","457","340482","<p>How can you run GUI applications in a Linux <a href=""http://www.docker.io"" rel=""noreferrer"">Docker</a> container?</p>
+<p>Are there any images that set up <code>vncserver</code> or something so that you can - for example - add an extra speedbump sandbox around say Firefox?</p>
+","15721","","3195477","","2021-06-03 18:16:08","2021-06-03 18:16:08","Can you run GUI applications in a Linux Docker container?","<linux><docker><x11><sandbox><vnc>","22","2","266","","","CC BY-SA 4.0"
+"28721699","1","28769950","","2015-02-25 14:34:12","","336","339995","<p>I'm using a Docker image which was built using the USER command to use a non-root user called <code>dev</code>.
+Inside a container, I'm ""dev"", but I want to edit the <code>/etc/hosts</code> file.</p>
+
+<p>So I need to be root. I'm trying the su command, but I'm asked to enter the root password.</p>
+
+<p>What's the default root user's password inside a Docker container?</p>
+","1581295","","63550","","2018-09-15 21:27:27","2020-09-01 12:31:52","Root password inside a Docker container","<docker>","16","1","126","","","CC BY-SA 4.0"
+"40801772","1","","","2016-11-25 09:39:10","","647","337162","<p>What is the difference between <code>ports</code> and <code>expose</code> options in <code>docker-compose.yml</code></p>
+","84143","","4516110","","2019-02-26 09:47:22","2021-04-10 03:07:19","What is the difference between docker-compose ports vs expose","<docker><docker-compose>","5","0","141","","","CC BY-SA 4.0"
+"35511604","1","","","2016-02-19 17:48:22","","258","336249","<p>I just downloaded Docker Toolbox for Windows 10 64bit today.  I'm going through the tutorial.  I'm receving the following error when trying to build an image using a Dockerfile.</p>
+
+<p>Steps:</p>
+
+<ul>
+<li>Launched Docker Quickstart terminal.</li>
+<li>testdocker after creating it.</li>
+<li>Prepare Dockerfile as documented in ""Build your own image"" web link</li>
+<li>ran below command</li>
+</ul>
+
+<p><code>docker build -t docker-whale .</code></p>
+
+<p><code>Error: $ docker build -t docker-whale .</code></p>
+
+<p><code>unable to prepare context: unable to evaluate symlinks in Dockerfile path: GetFileAttributesEx C:\Users\Villanueva\Test\testdocker\Dockerfile: The system cannot find the file specified.</code></p>
+
+<p><strong>BTW:</strong> I tried several options mentioned @ <a href=""https://github.com/docker/docker/issues/14339"" rel=""noreferrer"">https://github.com/docker/docker/issues/14339</a></p>
+
+<pre><code>    $ docker info
+    Containers: 4
+     Running: 0
+     Paused: 0
+     Stopped: 4
+    Images: 2
+    Server Version: 1.10.1
+    Storage Driver: aufs
+     Root Dir: /mnt/sda1/var/lib/docker/aufs
+     Backing Filesystem: extfs
+     Dirs: 20
+     Dirperm1 Supported: true
+    Execution Driver: native-0.2
+    Logging Driver: json-file
+    Plugins:
+     Volume: local
+     Network: bridge null host
+    Kernel Version: 4.1.17-boot2docker
+    Operating System: Boot2Docker 1.10.1 (TCL 6.4.1); master : b03e158 - Thu Feb 11 22:34:01 UTC 2016
+    OSType: linux
+    Architecture: x86_64
+    CPUs: 1
+    Total Memory: 996.2 MiB
+    Name: default
+    ID: C7DS:CIAJ:FTSN:PCGD:ZW25:MQNG:H3HK:KRJL:G6FC:VPRW:SEWW:KP7B
+    Debug mode (server): true
+     File Descriptors: 32
+     Goroutines: 44
+     System Time: 2016-02-19T17:37:37.706076803Z
+     EventsListeners: 0
+     Init SHA1:
+     Init Path: /usr/local/bin/docker
+     Docker Root Dir: /mnt/sda1/var/lib/docker
+    Labels:
+     provider=virtualbox
+</code></pre>
+","2863818","","9461440","","2020-06-07 01:40:48","2021-03-09 07:40:23","Docker: unable to prepare context: unable to evaluate symlinks in Dockerfile path: GetFileAttributesEx","<docker><dockerfile><docker-toolbox><docker-build>","35","4","23","","","CC BY-SA 4.0"
+"30969435","1","","","2015-06-21 21:18:38","","395","334830","<p>Where is the Docker daemon log? Oddly cannot find an answer to this via man, StackOverflow or Docker Docs. Note I am not asking for the docker container STDOUT, but the daemon log for troubleshooting communications between the client and container via daemon / proxy.  </p>
+","2603634","","","","","2021-06-07 05:50:57","Where is the Docker daemon log?","<logging><docker>","12","1","121","","","CC BY-SA 3.0"
+"40459280","1","","","2016-11-07 06:46:25","","173","331878","<p>Executing <code>docker version</code> command on <strong>Windows</strong> returns the following results:</p>
+<pre><code>C:\Projects&gt; docker version
+Client:
+ Version:      1.13.0-dev
+ API version:  1.25
+ Go version:   go1.7.3
+ Git commit:   d8d3314
+ Built:        Tue Nov  1 03:05:34 2016
+ OS/Arch:      windows/amd64
+error during connect: Get http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.25/version: open //./pipe/docker_engine: The system cannot find the file
+specified. In the default daemon configuration on Windows, the docker client must be run elevated to connect. This error may also indicate that the docker daemon is not running.
+</code></pre>
+<p>Running the diagnostics produces the following:</p>
+<pre><code>C:\Projects&gt; wget https://github.com/Microsoft/Virtualization- 
+Documentation/raw/master/windows-server-container-tools/Debug- 
+ContainerHost/Debug-ContainerHost.ps1 -UseBasicParsin | iex
+
+Checking for common problems
+Describing Windows Version and Prerequisites
+ [+] Is Windows 10 Anniversary Update or Windows Server 2016 608ms
+ [+] Has KB3192366, KB3194496, or later installed if running Windows build 14393 141ms
+ [+] Is not a build with blocking issues 29ms
+Describing Docker is installed
+ [-] A Docker service is installed - 'Docker' or 'com.Docker.Service'  134ms
+   Expected: value to not be empty
+   27:         $services | Should Not BeNullOrEmpty
+   at &lt;ScriptBlock&gt;, &lt;No file&gt;: line 27
+ [+] Service is running 127ms
+ [+] Docker.exe is in path 2.14s
+Describing User has permissions to use Docker daemon
+ [+] docker.exe should not return access denied 42ms
+Describing Windows container settings are correct
+ [-] Do not have DisableVSmbOplock set to 1 53ms
+   Expected: {0}
+   But was:  {1}
+   66:              $regvalue.VSmbDisableOplocks | Should Be 0
+   at &lt;ScriptBlock&gt;, &lt;No file&gt;: line 66
+ [+] Do not have zz values set 42ms
+Describing The right container base images are installed
+error during connect: Get http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.25/images/json: open //./pipe/docker_engine: The system cannot find the file specified. In the default daemon configuration on Windows, the docker client must be run elevated to connect. This error may also indicate that the docker daemon is not running.
+ [-] At least one of 'microsoft/windowsservercore' or 'microsoft/nanoserver' should be installed 129ms
+   ValidationMetadataException: The argument is null or empty. Provide an argument that is not null or empty, and then try the command again.
+   ParameterBindingValidationException: Cannot validate argument on parameter 'Property'. The argument is null or empty. Provide an argument that is not null or empty, and then try the command again.
+   at &lt;ScriptBlock&gt;, &lt;No file&gt;: line 90
+Describing Container network is created
+ [-] Error occurred in Describe block 1.08s
+   RuntimeException: Cannot index into a null array.
+   at &lt;ScriptBlock&gt;, &lt;No file&gt;: line 119
+Showing output from: docker info
+
+Showing output from: docker version
+Client:
+ Version:      1.13.0-dev
+ API version:  1.25
+ Go version:   go1.7.3
+ Git commit:   d8d3314
+ Built:        Tue Nov  1 03:05:34 2016
+ OS/Arch:      windows/amd64
+
+Showing output from: docker network ls
+
+Warnings &amp; errors from the last 24 hours
+Logs saved to C:\Projects\logs_20161107-084122.csv
+C:\Projects&gt;
+</code></pre>
+","231821","","452775","","2021-04-09 08:36:57","2021-05-28 20:46:42","Docker cannot start on Windows","<docker><docker-desktop>","40","3","46","","","CC BY-SA 4.0"
+"44785585","1","44785784","","2017-06-27 16:36:53","","499","330921","<p>I recently started using Docker and never realized that I should use <code>docker-compose down</code> instead of <code>ctrl-c</code> or <code>docker-compose stop</code> to get rid of my experiments. I now have a large number of unneeded docker images locally. </p>
+
+<p>Is there a flag I can run to delete all the local docker images &amp; containers?</p>
+
+<p>Something like <code>docker rmi --all --force</code> --all flag does not exist but I am looking for something with similar idea. </p>
+","2335820","","10907864","","2021-01-28 15:43:28","2021-07-01 07:30:42","Docker: How to delete all local Docker images","<docker><docker-compose>","17","4","178","","","CC BY-SA 4.0"
+"25267372","1","25268154","","2014-08-12 14:48:00","","368","328165","<p>In Docker 1.1.2 (latest), what's the correct way to detach from a container without stopping it?</p>
+
+<p>So for example, if I try:</p>
+
+<ul>
+<li><code>docker run -i -t foo /bin/bash</code> or</li>
+<li><code>docker attach foo</code> (for already running container)</li>
+</ul>
+
+<p>both of which get me to a terminal in the container, how do I exit the container's terminal without stopping it?</p>
+
+<p><code>exit</code> and <code>CTR+C</code> both stop the container.</p>
+","942635","","","","","2021-02-26 08:53:55","Correct way to detach from a container without stopping it","<docker>","12","2","136","","","CC BY-SA 3.0"
+"29377853","1","34129973","","2015-03-31 20:23:11","","274","327564","<p>I would like to be able to use env variables inside docker-compose.yml, with values passed in at the time of <code>docker-compose up</code>. This is the example.</p>
+<p>I am doing this today with basic docker run command, which is wrapped around my own script.
+Is there a way to achieve it with compose, without any such bash wrappers?</p>
+<pre class=""lang-yaml prettyprint-override""><code>proxy:
+  hostname: $hostname
+  volumes:
+    - /mnt/data/logs/$hostname:/logs
+    - /mnt/data/$hostname:/data
+</code></pre>
+","1739713","","1402846","","2020-07-21 05:18:04","2021-05-18 14:42:11","How to use environment variables in docker compose","<docker><docker-compose>","16","3","81","","","CC BY-SA 4.0"
+"44769315","1","44769468","","2017-06-26 22:01:49","","452","321245","<p>I did a docker pull and can list the image that's downloaded. I want to see the contents of this image. Did a search on the net but no straight answer.</p>
+","7865278","","1839439","","2019-10-02 10:39:41","2020-11-22 15:07:53","How to see docker image contents","<docker>","9","4","128","","","CC BY-SA 4.0"
+"27068596","1","34392052","","2014-11-21 19:11:28","","625","319138","<p>How can I include files from outside of Docker's build context using the ""ADD"" command in the Docker file?</p>
+
+<p>From the Docker documentation:</p>
+
+<blockquote>
+  <p>The  path must be inside the context of the build; you cannot ADD
+  ../something/something, because the first step of a docker build is to
+  send the context directory (and subdirectories) to the docker daemon.</p>
+</blockquote>
+
+<p>I do not want to restructure my whole project just to accommodate Docker in this matter. I want to keep all my Docker files in the same sub-directory.</p>
+
+<p>Also, it appears Docker does not yet (and may not ever) support symlinks: <a href=""https://github.com/docker/docker/issues/1676"" rel=""noreferrer"">Dockerfile ADD command does not follow symlinks on host #1676.</a> </p>
+
+<p>The only other thing I can think of is to include a pre-build step to copy the files into the Docker build context (and configure my version control to ignore those files). Is there a better workaround for than that?</p>
+","2048879","","321731","","2018-08-12 16:34:56","2021-06-04 10:21:59","How to include files outside of Docker's build context?","<docker>","16","4","85","","","CC BY-SA 4.0"
+"31746182","1","41854997","","2015-07-31 12:25:23","","419","310502","<p>I am using rabbitmq and a simple python sample from <a href=""https://www.rabbitmq.com/tutorials/tutorial-one-python.html"" rel=""noreferrer"">here</a>
+together with docker-compose. My problem is that I need to wait for rabbitmq to be fully started. From what I searched so far, I don't know how to wait with container x (in my case worker) until y (rabbitmq) is started.</p>
+<p>I found this <a href=""http://blog.chmouel.com/2014/11/04/avoiding-race-conditions-between-containers-with-docker-and-fig/"" rel=""noreferrer"">blog post</a> where he checks if the other host is online.
+I also found this <a href=""https://docs.docker.com/reference/commandline/wait/"" rel=""noreferrer"">docker command</a>:</p>
+<blockquote>
+<p><strong>wait</strong></p>
+<p>Usage: docker wait CONTAINER [CONTAINER...]</p>
+<p>Block until a container stops, then print its exit code.</p>
+</blockquote>
+<p>Waiting for a container to stop is maybe not what I am looking for but if
+it is, is it possible to use that command inside the docker-compose.yml?
+My solution so far is to wait some seconds and check the port, but is this the way to achieve this? If I don't wait, I get an error.</p>
+<p><strong>docker-compose.yml</strong></p>
+<pre class=""lang-yaml prettyprint-override""><code>worker:
+    build: myapp/.
+    volumes:
+    - myapp/.:/usr/src/app:ro
+
+    links:
+    - rabbitmq
+rabbitmq:
+    image: rabbitmq:3-management
+</code></pre>
+<p><strong>python hello sample (rabbit.py):</strong></p>
+<pre class=""lang-py prettyprint-override""><code>import pika
+import time
+
+import socket
+
+pingcounter = 0
+isreachable = False
+while isreachable is False and pingcounter &lt; 5:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        s.connect(('rabbitmq', 5672))
+        isreachable = True
+    except socket.error as e:
+        time.sleep(2)
+        pingcounter += 1
+    s.close()
+
+if isreachable:
+    connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host=&quot;rabbitmq&quot;))
+    channel = connection.channel()
+
+    channel.queue_declare(queue='hello')
+
+    channel.basic_publish(exchange='',
+                          routing_key='hello',
+                          body='Hello World!')
+    print (&quot; [x] Sent 'Hello World!'&quot;)
+    connection.close()
+</code></pre>
+<p><strong>Dockerfile for worker:</strong></p>
+<pre><code>FROM python:2-onbuild
+RUN [&quot;pip&quot;, &quot;install&quot;, &quot;pika&quot;]
+
+CMD [&quot;python&quot;,&quot;rabbit.py&quot;]
+</code></pre>
+<p><strong>Update Nov 2015</strong>:</p>
+<p>A shell script or waiting inside your program is maybe a possible solution. But after seeing this <a href=""https://github.com/docker/compose/issues/374"" rel=""noreferrer"">Issue</a> I am looking for a command or feature of docker/docker-compose itself.</p>
+<p>They mention a  solution for implementing a health check, which may be the best option. A open tcp connection does not mean your service is ready or may remain ready. In addition to that I need to change my entrypoint in my dockerfile.</p>
+<p>So I am hoping for an answer with docker-compose on board commands, which will hopefully the case if they finish this issue.</p>
+<p><strong>Update March 2016</strong></p>
+<p>There is a <a href=""https://github.com/docker/docker/issues/21142"" rel=""noreferrer"">proposal</a> for providing a built-in way to determine if a container is &quot;alive&quot;. So docker-compose can maybe make use of it in near future.</p>
+<p><strong>Update June 2016</strong></p>
+<p>It seems that the healthcheck will be <a href=""https://github.com/docker/docker/pull/23218"" rel=""noreferrer"">integrated</a> into docker in Version 1.12.0</p>
+<p><strong>Update January 2017</strong></p>
+<p>I found a docker-compose solution see:
+<a href=""https://stackoverflow.com/questions/31746182/docker-compose-wait-for-container-x-before-starting-y/41854997#41854997"">Docker Compose wait for container X before starting Y</a></p>
+","1584115","","1402846","","2020-09-30 09:38:41","2021-04-12 18:09:39","Docker Compose wait for container X before starting Y","<docker-compose>","18","2","149","","","CC BY-SA 4.0"
+"20632258","1","20632625","","2013-12-17 10:55:04","","268","308628","<p>In docker I want to do this:</p>
+
+<pre><code>git clone XYZ
+cd XYZ
+make XYZ
+</code></pre>
+
+<p>However because there is no cd command, I have to pass in the full path everytime (make XYZ /fullpath). Any good solutions for this?</p>
+","1460614","","608639","","2018-12-18 06:01:38","2021-03-21 22:55:48","Change directory command in Docker?","<docker><cd>","4","3","26","","","CC BY-SA 4.0"
+"27093612","1","38742545","","2014-11-23 19:58:33","","511","308371","<p>I have a dockerfile that download and builds GTK from source, but the following line is not updating my image's environment variable:</p>
+
+<pre><code>RUN PATH=""/opt/gtk/bin:$PATH""
+RUN export PATH
+</code></pre>
+
+<p>I read that that I should be using ENV to set environment values, but the following instruction doesn't seem to work either:</p>
+
+<p><code>ENV PATH /opt/gtk/bin:$PATH</code></p>
+
+<p>This is my entire Dockerfile:</p>
+
+<pre><code>FROM ubuntu
+RUN apt-get update
+RUN apt-get install -y golang gcc make wget git libxml2-utils libwebkit2gtk-3.0-dev libcairo2 libcairo2-dev libcairo-gobject2 shared-mime-info libgdk-pixbuf2.0-* libglib2-* libatk1.0-* libpango1.0-* xserver-xorg xvfb
+
+# Downloading GTKcd
+RUN wget http://ftp.gnome.org/pub/gnome/sources/gtk+/3.12/gtk+-3.12.2.tar.xz
+RUN tar xf gtk+-3.12.2.tar.xz
+RUN cd gtk+-3.12.2
+
+# Setting environment variables before running configure
+RUN CPPFLAGS=""-I/opt/gtk/include""
+RUN LDFLAGS=""-L/opt/gtk/lib""
+RUN PKG_CONFIG_PATH=""/opt/gtk/lib/pkgconfig""
+RUN export CPPFLAGS LDFLAGS PKG_CONFIG_PATH
+RUN ./configure --prefix=/opt/gtk
+RUN make
+RUN make install
+
+# running ldconfig after make install so that the newly installed libraries are found.
+RUN ldconfig
+
+# Setting the LD_LIBRARY_PATH environment variable so the systems dynamic linker can find the newly installed libraries.
+RUN LD_LIBRARY_PATH=""/opt/gtk/lib""
+
+# Updating PATH environment program so that utility binaries installed by the various libraries will be found.
+RUN PATH=""/opt/gtk/bin:$PATH""
+RUN export LD_LIBRARY_PATH PATH
+
+# Collecting garbage
+RUN rm -rf gtk+-3.12.2.tar.xz
+
+# creating go code root
+RUN mkdir gocode
+RUN mkdir gocode/src
+RUN mkdir gocode/bin
+RUN mkdir gocode/pkg
+
+# Setting the GOROOT and GOPATH enviornment variables, any commands created are automatically added to PATH
+RUN GOROOT=/usr/lib/go
+RUN GOPATH=/root/gocode
+RUN PATH=$GOPATH/bin:$PATH
+RUN export GOROOT GOPATH PATH
+</code></pre>
+","1315565","","402884","","2015-11-18 21:22:13","2020-12-03 03:02:22","In a Dockerfile, How to update PATH environment variable?","<docker><dockerhub>","4","3","63","","","CC BY-SA 3.0"
+"24288616","1","","","2014-06-18 14:47:22","","341","307016","<h1>Summary</h1>
+<p>I am trying to mount a host directory in Docker, but then I can not access it from within the container, even if the access permissions look good.</p>
+<h1>Details</h1>
+<p>I am doing</p>
+<pre><code>sudo docker run -i -v /data1/Downloads:/Downloads ubuntu bash
+</code></pre>
+<p>and then</p>
+<pre><code>ls -al
+</code></pre>
+<p>It gives me:</p>
+<pre><code>total 8892
+drwxr-xr-x.  23 root root    4096 Jun 18 14:34 .
+drwxr-xr-x.  23 root root    4096 Jun 18 14:34 ..
+-rwxr-xr-x.   1 root root       0 Jun 18 14:34 .dockerenv
+-rwx------.   1 root root 9014486 Jun 17 22:09 .dockerinit
+drwxrwxr-x.  18 1000 1000   12288 Jun 16 11:40 Downloads
+drwxr-xr-x.   2 root root    4096 Jan 29 18:10 bin
+drwxr-xr-x.   2 root root    4096 Apr 19  2012 boot
+drwxr-xr-x.   4 root root     340 Jun 18 14:34 dev
+drwxr-xr-x.  56 root root    4096 Jun 18 14:34 etc
+drwxr-xr-x.   2 root root    4096 Apr 19  2012 home
+</code></pre>
+<p>and a lot more lines like that (I think this is the relevant portion).</p>
+<p>If I do</p>
+<pre><code>cd /Downloads
+ls
+</code></pre>
+<p>the result is</p>
+<pre><code>ls: cannot open directory .: Permission denied
+</code></pre>
+<p>The host is Fedora 20, with Docker 1.0.0 and go1.2.2.</p>
+<p>What is going wrong?</p>
+","3753011","","1079075","","2020-12-14 22:41:20","2021-06-25 20:39:40","Permission denied on accessing host directory in Docker","<docker><file-permissions><fedora><mount><permission-denied>","12","0","123","","","CC BY-SA 4.0"
+"25436742","1","25551160","","2014-08-21 22:09:29","","196","306152","<p>I run a private docker registry, and I want to delete all images but the <code>latest</code> from a repository. I don't want to delete the entire repository, just some of the images inside it. The <a href=""https://docs.docker.com/registry/spec/api/"" rel=""noreferrer"">API docs</a> don't mention a way to do this, but surely it's possible?</p>
+","3562538","","41283","","2017-07-31 17:44:31","2021-05-22 13:51:30","How to delete images from a private docker registry?","<docker><docker-registry>","13","4","73","","","CC BY-SA 3.0"
+"28302178","1","33956387","","2015-02-03 15:08:17","","398","305932","<p>I have a Docker container that I've created simply by installing Docker on Ubuntu and doing:</p>
+<pre><code>sudo docker run -i -t ubuntu /bin/bash
+</code></pre>
+<p>I immediately started installing Java and some other tools, spent some time with it, and stopped the container by</p>
+<pre><code>exit
+</code></pre>
+<p>Then I wanted to add a volume and realised that this is not as straightforward as I thought it would be. If I use <code>sudo docker -v /somedir run ...</code> then I end up with a fresh new container, so I'd have to install Java and do what I've already done before just to arrive at a container with a mounted volume.</p>
+<p>All the documentation about mounting a folder from the host seems to imply that mounting a volume is something that can be done when creating a container. So the only option I have to avoid reconfiguring a new container from scratch is to commit the existing container to a repository and use that as the basis of a new one whilst mounting the volume.</p>
+<p>Is this indeed the only way to add a volume to an existing container?</p>
+","238517","","1402846","","2020-07-15 09:31:44","2021-06-05 15:43:30","How can I add a volume to an existing Docker container?","<docker>","8","0","101","","","CC BY-SA 4.0"
+"37971961","1","44759326","","2016-06-22 15:09:21","","136","302215","<p>When I run <code>docker-compose up</code> in my Docker project it failes with the following message:</p>
+
+<pre><code>Error starting userland proxy: listen tcp 0.0.0.0:3000: bind: address already in use
+</code></pre>
+
+<p><code>netstat -pna | grep 3000</code>
+shows this:</p>
+
+<pre><code>tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      -  
+</code></pre>
+
+<p>I've already tried <code>docker-compose down</code>, but it doesn't help.</p>
+","6014860","","","","","2021-05-18 04:48:51","Docker Error bind: address already in use","<ubuntu><docker><ubuntu-14.04><bind><docker-compose>","22","5","35","","","CC BY-SA 3.0"
+"37694987","1","","","2016-06-08 06:39:44","","304","301822","<p>I have Postgresql on a server in a docker container. How can I connect to it from the outside, that is, from my local computer? What setting should I apply to allow that?</p>
+","6250601","","","","","2021-05-22 04:19:21","Connecting to Postgresql in a docker container from outside","<postgresql><docker><remote-connection>","16","2","131","","","CC BY-SA 3.0"
+"23544282","1","27021154","","2014-05-08 14:11:10","","374","299698","<p>I've been playing around with Docker for a while and keep on finding the same issue when dealing with persistent data.</p>
+
+<p>I create my <code>Dockerfile</code> and <a href=""http://docs.docker.io/reference/builder/#volume"" rel=""noreferrer"">expose a volume</a> or use <code>--volumes-from</code> to <a href=""https://stackoverflow.com/questions/18496940/how-to-deal-with-persistent-storage-e-g-databases-in-docker"">mount a host folder inside my container</a>.</p>
+
+<p>What permissions should I apply to the shared volume on the host?</p>
+
+<p>I can think of two options:</p>
+
+<ul>
+<li><p>So far I've given everyone read/write access, so I can write to the folder from the Docker container.</p></li>
+<li><p>Map the users from host into the container, so I can assign more granular permissions. Not sure this is possible though and haven't found much about it. So far, all I can do is run the container as some user: <code>docker run -i -t -user=""myuser"" postgres</code>, but this user has a different UID than my host <code>myuser</code>, so permissions do not work. Also, I'm unsure if mapping the users will pose some security risks.</p></li>
+</ul>
+
+<p>Are there other alternatives?</p>
+
+<p>How are you guys/gals dealing with this issue?</p>
+","794401","","63550","","2018-07-25 04:55:45","2020-04-15 07:26:56","What is the (best) way to manage permissions for Docker shared volumes?","<docker>","13","4","164","","","CC BY-SA 4.0"
+"18496940","1","20652410","","2013-08-28 19:45:44","","1028","296210","<p>How do people deal with persistent storage for your Docker containers?</p>
+
+<p>I am currently using this approach: build the image, e.g. for PostgreSQL, and then start the container with</p>
+
+<pre><code>docker run --volumes-from c0dbc34fd631 -d app_name/postgres
+</code></pre>
+
+<p>IMHO, that has the drawback, that I must not ever (by accident) delete container ""c0dbc34fd631"".</p>
+
+<p>Another idea would be to mount host volumes ""-v"" into the container, however, the <strong>userid</strong> within the container does not necessarily match the <strong>userid</strong> from the host, and then permissions might be messed up.</p>
+
+<p>Note: Instead of <code>--volumes-from 'cryptic_id'</code> you can also use <code>--volumes-from my-data-container</code> where <code>my-data-container</code> is a name you assigned to a data-only container, e.g. <code>docker run --name my-data-container ...</code> (see the accepted answer)</p>
+","226743","","5675325","","2018-10-22 12:19:36","2020-11-27 19:19:08","How to deal with persistent storage (e.g. databases) in Docker","<docker><docker-container>","15","4","594","","","CC BY-SA 4.0"
+"30215830","1","30220096","","2015-05-13 13:09:42","","348","296041","<p>I'm trying to copy a number of files and folders to a docker image build from my localhost.</p>
+
+<p>The files are like this:</p>
+
+<pre><code>folder1
+    file1
+    file2
+folder2
+    file1
+    file2
+</code></pre>
+
+<p>I'm trying to make the copy like this:</p>
+
+<pre><code>COPY files/* /files/
+</code></pre>
+
+<p>However, all files are placed in /files/ is there a way in Docker to keep the subdirectory structure as well as copying the files into their directories?</p>
+","1220022","","","","","2020-10-29 03:51:43","Dockerfile copy keep subdirectory structure","<copy><docker><dockerfile>","4","1","36","","","CC BY-SA 3.0"
+"19585028","1","19586345","","2013-10-25 08:36:30","","418","293924","<p>Despite Docker's <a href=""http://www.docker.io/gettingstarted/"" rel=""noreferrer"">Interactive tutorial</a> and <a href=""http://docs.docker.io/en/latest/faq/#do-i-lose-my-data-when-the-container-exits"" rel=""noreferrer"">faq</a> I lose my data when the container exits.</p>
+
+<p>I have installed Docker as described here: <a href=""http://docs.docker.io/en/latest/installation/ubuntulinux"" rel=""noreferrer"">http://docs.docker.io/en/latest/installation/ubuntulinux</a>
+without any problem on ubuntu 13.04.</p>
+
+<p>But it loses all data when exits.</p>
+
+<pre><code>iman@test:~$ sudo docker version
+Client version: 0.6.4 
+Go version (client): go1.1.2 
+Git commit (client): 2f74b1c 
+Server version: 0.6.4 
+Git commit (server): 2f74b1c 
+Go version (server): go1.1.2 
+Last stable version: 0.6.4 
+
+
+iman@test:~$ sudo docker run ubuntu ping
+2013/10/25 08:05:47 Unable to locate ping 
+iman@test:~$ sudo docker run ubuntu apt-get install ping
+Reading package lists... 
+Building dependency tree... 
+The following NEW packages will be installed: 
+  iputils-ping 
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded. 
+Need to get 56.1 kB of archives. 
+After this operation, 143 kB of additional disk space will be used. 
+Get:1 http://archive.ubuntu.com/ubuntu/ precise/main iputils-ping amd64 3:20101006-1ubuntu1 [56.1 kB] 
+debconf: delaying package configuration, since apt-utils is not installed 
+Fetched 56.1 kB in 0s (195 kB/s) 
+Selecting previously unselected package iputils-ping. 
+(Reading database ... 7545 files and directories currently installed.) 
+Unpacking iputils-ping (from .../iputils-ping_3%3a20101006-1ubuntu1_amd64.deb) ... 
+Setting up iputils-ping (3:20101006-1ubuntu1) ... 
+iman@test:~$ sudo docker run ubuntu ping
+2013/10/25 08:06:11 Unable to locate ping 
+iman@test:~$ sudo docker run ubuntu touch /home/test
+iman@test:~$ sudo docker run ubuntu ls /home/test
+ls: cannot access /home/test: No such file or directory 
+</code></pre>
+
+<p>I also tested it with interactive sessions with the same result. Did I forget something?</p>
+
+<h2>EDIT: IMPORTANT FOR NEW DOCKER USERS</h2>
+
+<p>As @mohammed-noureldin and others said, actually this is <strong>NOT</strong> a <strong>container exiting</strong>. Every time it just creates a new container.</p>
+","1675586","","1675586","","2019-04-03 06:40:09","2019-11-15 11:19:21","I lose my data when the container exits","<docker>","11","5","173","","","CC BY-SA 3.0"
+"34549859","1","34554506","","2015-12-31 17:45:19","","115","293280","<p>I'm trying to run a script during my building process in my <code>Dockerfile</code>.
+But it doesn't seems to work.</p>
+<p>I tried that way:</p>
+<pre><code>FROM php:7-fpm
+ADD bootstrap.sh /
+ENTRYPOINT [&quot;/bin/bash&quot;, &quot;/bootstrap.sh&quot;]
+</code></pre>
+<p>Also this way:</p>
+<pre><code>FROM php:7-fpm    
+ADD bootstrap.sh /
+RUN bash -c &quot;/bootstrap.sh&quot;
+</code></pre>
+<p>And also by executing my running container:</p>
+<pre><code>docker exec symfony /bin/bash -c &quot;/bootstrap.sh&quot;
+</code></pre>
+<p>Nothing seems to work.</p>
+<p>Do you know how to do it?</p>
+","3676576","","2359227","","2021-01-03 09:13:10","2021-01-11 20:40:58","Run a script in Dockerfile","<docker><dockerfile>","5","5","26","","","CC BY-SA 4.0"
+"36249744","1","","","2016-03-27 16:25:57","","374","290221","<p>Is there any way to start an interactive shell in a container using Docker Compose only? I've tried something like this, in my docker-compose.yml:</p>
+<pre><code>myapp:
+  image: alpine:latest
+  entrypoint: /bin/sh
+</code></pre>
+<p>When I start this container using docker-compose up it's exited immediately. Are there any flags I can add to the <code>entrypoint</code> command, or as an additional option to <code>myapp</code>, to start an interactive shell?</p>
+<p>I know there are native docker command options to achieve this, just curious if it's possible using only Docker Compose, too.</p>
+","4042051","","1145356","","2021-02-15 08:23:40","2021-06-03 14:29:36","Interactive shell using Docker Compose","<shell><docker><interactive><docker-compose>","10","6","103","","","CC BY-SA 4.0"
+"20430371","1","20431030","","2013-12-06 17:51:37","","173","283088","<p>I had it working allright but now it stopped. I tried the following commands with no avail:</p>
+
+<p><code>docker run -dns 8.8.8.8 base ping google.com</code></p>
+
+<p><code>docker run base ping google.com</code></p>
+
+<p><code>sysctl -w net.ipv4.ip_forward=1</code> - both on the host and on the container</p>
+
+<p>All I get is <code>unknown host google.com</code>.  Docker version 0.7.0</p>
+
+<p>Any ideas?</p>
+
+<p>P.S. <code>ufw</code> disabled as well</p>
+","1515697","","","","","2021-06-23 02:44:31","My docker container has no internet","<docker>","25","5","56","","","CC BY-SA 3.0"
+"32727594","1","32728266","","2015-09-22 21:53:55","","178","281100","<p>I am new to the docker world. I have to invoke a shell script that takes command line arguments through a docker container.
+Ex: My shell script looks like:</p>
+
+<pre><code>#!bin/bash
+echo $1
+</code></pre>
+
+<p>Dockerfile looks like this:</p>
+
+<pre><code>FROM ubuntu:14.04
+COPY ./file.sh /
+CMD /bin/bash file.sh
+</code></pre>
+
+<p>I am not sure how to pass the arguments while running the container</p>
+","1801934","","","","","2021-01-21 11:43:03","How to pass arguments to Shell Script through docker run","<bash><shell><docker><command-line-arguments>","7","0","49","","","CC BY-SA 3.0"
+"26598738","1","26599273","","2014-10-27 23:47:58","","266","276233","<p>I have been trying to set up a container for a development postgres instance by creating a custom user &amp; database. I am using the <a href=""https://registry.hub.docker.com/_/postgres/"" rel=""noreferrer"">official postgres docker image</a>. In the documentation it instructs you to insert a bash script inside of the <code>/docker-entrypoint-initdb.d/</code> folder to set up the database with any custom parameters.</p>
+
+<h2>My bash script: make_db.sh</h2>
+
+<pre><code>su postgres -c ""createuser -w -d -r -s docker""
+su postgres -c ""createdb -O docker docker""
+</code></pre>
+
+<h2>Dockerfile</h2>
+
+<pre><code>FROM library/postgres
+
+RUN [""mkdir"", ""/docker-entrypoint-initdb.d""]
+ADD make_db.sh /docker-entrypoint-initdb.d/
+</code></pre>
+
+<p>The error I get from the <code>docker logs -f db</code> (db is my container name) is:</p>
+
+<blockquote>
+  <p>createuser: could not connect to database postgres: could not connect to server: No such file or directory</p>
+</blockquote>
+
+<p>It seems that the commands inside of the <code>/docker-entrypoint-initdb.d/</code> folder are being executed before postgres is started. My question is, how do I set up a user/database programmatically using the official postgres container? Is there any way to do this with a script?</p>
+","2308178","","46914","","2017-02-13 04:52:29","2021-07-02 13:02:08","How to create User/Database in script for Docker Postgres","<bash><postgresql><docker><dockerhub>","8","0","91","","","CC BY-SA 3.0"
+"45682010","1","","","2017-08-14 19:49:10","","139","273406","<p>I'm following this tutorial:
+<a href=""https://medium.com/towards-data-science/number-plate-detection-with-supervisely-and-tensorflow-part-1-e84c74d4382c"" rel=""noreferrer"">https://medium.com/towards-data-science/number-plate-detection-with-supervisely-and-tensorflow-part-1-e84c74d4382c</a></p>
+<p>and they use docker. When I tried to run docker (inside the run.sh script):</p>
+<pre><code>docker run \
+    -p 8888:8888 
+    -v `pwd`/../src:/src \
+    -v `pwd`/../data:/data -w /src supervisely_anpr \
+    --rm \
+    -it \
+    bash
+</code></pre>
+<p>I got the error:</p>
+<pre><code>docker: invalid reference format.
+</code></pre>
+<p>I spent 2 hours and I can't really understand what's wrong. Any idea really appreciated.</p>
+","7071236","","875915","","2020-09-16 15:01:39","2021-06-06 03:37:04","docker : invalid reference format","<docker>","11","5","17","","","CC BY-SA 4.0"
+"31578446","1","31578527","","2015-07-23 04:57:07","","102","273390","<p>I am trying to create a shell script for setting up a docker container. My script file looks like:</p>
+
+<pre><code>#!bin/bash
+
+docker run -t -i -p 5902:5902 --name ""mycontainer"" --privileged myImage:new /bin/bash
+</code></pre>
+
+<p>Running this script file will run the container in a newly invoked bash.</p>
+
+<p>Now I need to run a script file (test.sh)which is already inside container from the above given shell script.(eg: cd /path/to/test.sh &amp;&amp; ./test.sh)
+How to do that?</p>
+","4554967","","13860","","2020-01-06 12:20:48","2021-03-18 13:16:06","Running a script inside a docker container using shell script","<bash><shell><docker>","8","2","34","","","CC BY-SA 4.0"
+"20635472","1","25086628","","2013-12-17 13:29:34","","332","273056","<p>I have a Dockerfile that I am putting together to install a vanilla python environment (into which I will be installing an app, but at a later date).</p>
+
+<pre><code>FROM ubuntu:12.04
+
+# required to build certain python libraries
+RUN apt-get install python-dev -y
+
+# install pip - canonical installation instructions from pip-installer.org
+# http://www.pip-installer.org/en/latest/installing.html
+ADD https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py /tmp/ez_setup.py
+ADD https://raw.github.com/pypa/pip/master/contrib/get-pip.py /tmp/get-pip.py
+RUN python /tmp/ez_setup.py
+RUN python /tmp/get-pip.py
+RUN pip install --upgrade pip 
+
+# install and configure virtualenv
+RUN pip install virtualenv 
+RUN pip install virtualenvwrapper
+ENV WORKON_HOME ~/.virtualenvs
+RUN mkdir -p $WORKON_HOME
+RUN source /usr/local/bin/virtualenvwrapper.sh
+</code></pre>
+
+<p>The build runs ok until the last line, where I get the following exception:</p>
+
+<pre><code>[previous steps 1-9 removed for clarity]
+...
+Successfully installed virtualenvwrapper virtualenv-clone stevedore
+Cleaning up...
+ ---&gt; 1fc253a8f860
+Step 10 : ENV WORKON_HOME ~/.virtualenvs
+ ---&gt; Running in 8b0145d2c80d
+ ---&gt; 0f91a5d96013
+Step 11 : RUN mkdir -p $WORKON_HOME
+ ---&gt; Running in 9d2552712ddf
+ ---&gt; 3a87364c7b45
+Step 12 : RUN source /usr/local/bin/virtualenvwrapper.sh
+ ---&gt; Running in c13a187261ec
+/bin/sh: 1: source: not found
+</code></pre>
+
+<p>If I <code>ls</code> into that directory (just to test that the previous steps were committed) I can see that the files exist as expected:</p>
+
+<pre><code>$ docker run 3a87 ls /usr/local/bin
+easy_install
+easy_install-2.7
+pip
+pip-2.7
+virtualenv
+virtualenv-2.7
+virtualenv-clone
+virtualenvwrapper.sh
+virtualenvwrapper_lazy.sh
+</code></pre>
+
+<p>If I try just running the <code>source</code> command I get the same 'not found' error as above. If I RUN an interactive shell session however, source does work:</p>
+
+<pre><code>$ docker run 3a87 bash
+source
+bash: line 1: source: filename argument required
+source: usage: source filename [arguments]
+</code></pre>
+
+<p>I can run the script from here, and then happily access <code>workon</code>, <code>mkvirtualenv</code> etc.</p>
+
+<p>I've done some digging, and initially it looked as if the problem might lie in the difference between <strong>bash</strong> as the Ubuntu <em>login shell</em>, and <strong>dash</strong> as the Ubuntu <em>system shell</em>, <strong>dash</strong> not supporting the <code>source</code> command.</p>
+
+<p>However, the answer to this appears to be to use <strong>'.'</strong> instead of <code>source</code>, but this just causes the Docker runtime to blow up with a go panic exception.</p>
+
+<p>What is the best way to run a shell script from a Dockerfile RUN instruction to get around this (am running off the default base image for Ubuntu 12.04 LTS).</p>
+","45698","","","","","2021-05-20 18:21:24","Using the RUN instruction in a Dockerfile with 'source' does not work","<bash><shell><docker>","18","5","76","","","CC BY-SA 3.0"
+"19537645","1","34600106","","2013-10-23 09:16:03","","295","270611","<p>I'm building a container for a ruby app. My app's configuration is contained within environment variables (loaded inside the app with <a href=""http://github.com/bkeepers/dotenv"">dotenv</a>).</p>
+
+<p>One of those configuration variables is the public ip of the app, which is used internally to make links.
+I need to add a dnsmasq entry pointing this ip to 127.0.0.1 inside the container, so it can fetch the app's links as if it were not containerized.</p>
+
+<p>I'm therefore trying to set an <code>ENV</code> in my Dockerfile which would pass an environment variable to the container.</p>
+
+<p>I tried a few things.</p>
+
+<pre><code>ENV REQUEST_DOMAIN $REQUEST_DOMAIN
+ENV REQUEST_DOMAIN `REQUEST_DOMAIN`
+</code></pre>
+
+<p>Everything passes the ""REQUEST_DOMAIN"" string instead of the value of the environment variable though.
+Is there a way to pass environment variables values from the host machine to the container?</p>
+","122080","","","","","2020-05-17 14:34:17","Get environment variable value in Dockerfile","<docker>","6","0","59","","","CC BY-SA 3.0"
+"48719921","1","","","2018-02-10 10:49:25","","101","270254","<p>I am using Laravel 4.2 with docker. I setup it on local. It worked without any problem but when I am trying to setup online using same procedure then I am getting error</p>
+
+<pre><code>pull access denied for &lt;projectname&gt;/php, repository does not exist or may require 'docker login'
+</code></pre>
+
+<p>is it something relevant to create repository here <a href=""https://cloud.docker.com/"" rel=""noreferrer"">https://cloud.docker.com/</a>  or need to docker login in command?</p>
+
+<p>After days of study I am still not able to figure out what could be the fix in this case and what are the right steps?</p>
+
+<p>I have the complete code. I can paste here if need to check certain parts. </p>
+","4738959","","6302709","","2020-06-19 19:44:44","2021-06-02 20:21:50","pull access denied repository does not exist or may require docker login","<docker><ubuntu-16.04>","21","0","9","","","CC BY-SA 4.0"
+"32230577","1","","","2015-08-26 15:21:32","","280","269107","<p>I'm using <a href=""https://docs.docker.com/compose/yml/"" rel=""noreferrer""><strong>docker-compose</strong></a> to create my development environment. I want to build a specific image, but I don't know how to set a name for that image.</p>
+
+<pre><code>wildfly:
+  build: /path/to/dir/Dockerfile
+  container_name: wildfly_server
+  ports:
+   - 9990:9990
+   - 80:8080
+  environment:
+   - MYSQL_HOST=mysql_server
+   - MONGO_HOST=mongo_server
+   - ELASTIC_HOST=elasticsearch_server
+  volumes:
+   - /Volumes/CaseSensitive/development/wildfly/deployments/:/opt/jboss/wildfly/standalone/deployments/
+  links:
+   - mysql:mysql_server
+   - mongo:mongo_server
+   - elasticsearch:elasticsearch_server
+</code></pre>
+
+<p>When I execute <code>docker-compose</code> everything is ok, but I get a random name for the new image. Is it possible to set a name to the build image?</p>
+","988174","","39643","","2018-06-13 10:27:57","2021-06-18 06:35:47","How do I define the name of image built with docker-compose","<docker><docker-compose><orchestration>","7","4","47","","","CC BY-SA 4.0"
+"47854463","1","48450294","","2017-12-17 11:08:22","","271","267551","<p>I am new to docker. I just tried to use docker in my local machine(Ubuntu 16.04) with Jenkins. </p>
+
+<p>I configured a new job with below pipeline script.</p>
+
+<pre class=""lang-groovy prettyprint-override""><code>node {
+    stage('Build') {
+      docker.image('maven:3.3.3').inside {
+        sh 'mvn --version'
+      }
+    }
+}
+</code></pre>
+
+<p>But it fails with below error.</p>
+
+<p><a href=""https://i.stack.imgur.com/nz6Ig.png"" rel=""noreferrer""><img src=""https://i.stack.imgur.com/nz6Ig.png"" alt=""enter image description here""></a></p>
+","1294150","","10907864","","2020-04-21 20:17:54","2021-06-23 19:54:09","Docker: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock","<docker><jenkins><jenkins-pipeline>","31","3","81","","","CC BY-SA 4.0"
+"28996907","1","28997256","","2015-03-11 20:40:21","","398","266842","<p>Trying to follow the instructions for building a docker image from the docker website.</p>
+
+<p><a href=""https://docs.docker.com/examples/running_redis_service/"">https://docs.docker.com/examples/running_redis_service/</a></p>
+
+<p>this is the error I get will following the instructions on the doc and using this Dockerfile</p>
+
+<pre><code>FROM        ubuntu:14.04
+RUN         apt-get update &amp;&amp; apt-get install -y redis-server
+EXPOSE      6379
+ENTRYPOINT  [""/usr/bin/redis-server""]
+
+
+sudo docker build -t myrepo/redis
+docker: ""build"" requires 1 argument. See 'docker build --help'.
+</code></pre>
+
+<p>How do  resolve?</p>
+","1203556","","3467532","","2017-07-25 16:08:05","2020-10-23 16:28:25","docker: ""build"" requires 1 argument. See 'docker build --help'","<docker><containers>","14","0","42","","","CC BY-SA 3.0"
+"25135897","1","25150809","","2014-08-05 09:53:58","","179","265243","<p>I have a <a href=""https://github.com/larazest/db/blob/master/Dockerfile"">Dockerfile</a> to install MySQL server in a container, which I then start like this:</p>
+
+<pre><code>sudo docker run -t -i 09d18b9a12be /bin/bash
+</code></pre>
+
+<p>But the MySQL service does not start automatically, I have to manually run (from within the container):</p>
+
+<pre><code>service mysql start
+</code></pre>
+
+<p>How do I automatically start the MySQL service when I run the docker container?</p>
+","942635","","","","","2020-08-22 11:14:19","How to automatically start a service when running a docker container?","<docker>","11","3","57","","","CC BY-SA 3.0"
+"30133664","1","30133768","","2015-05-08 22:18:17","","284","264071","<p>When using docker images from registries, I often need to see the volumes created by the image's containers.</p>
+
+<p><em>Note: I'm using docker version 1.3.2 on Red Hat 7.</em></p>
+
+<h2>Example</h2>
+
+<p>The <code>postgres</code> official image from the Docker Registry has a volume configured for containers at <code>/var/lib/postgresql/data</code>.</p>
+
+<p>What's the most succinct command to show the volume at <code>/var/lib/postgresql/data</code> in a <code>postgres</code> container?</p>
+","2125392","","39974","","2017-03-07 13:07:42","2021-06-23 08:25:50","How do you list volumes in docker containers?","<docker>","15","1","62","","","CC BY-SA 3.0"
+"26331651","1","","","2014-10-13 01:09:36","","201","263094","<p>I've been using this Docker-image <a href=""https://registry.hub.docker.com/u/tutum/wordpress/"">tutum/wordpress</a> to demonstrate a Wordpress website. Recently I found out that the image uses volumes for the MySQL-data.</p>
+
+<p>So the problem is this: If I want to backup and restore the container I can try to commit an image, and then later delete the container, and create a new container from the committed image. But if I do that the volume gets deleted and all my data is gone.</p>
+
+<p>There must be some simple way to backup my container plus its volume-data but I can't find it anywhere.</p>
+","966023","","2191105","","2015-07-20 01:10:59","2021-03-08 16:44:07","How can I backup a Docker-container with its data-volumes?","<backup><docker><linux-containers>","15","1","105","","","CC BY-SA 3.0"
+"23391839","1","23411161","","2014-04-30 15:14:10","","275","262467","<p>I have copied this code from what seems to be various working dockerfiles around, here is mine:</p>
+
+<pre><code>FROM ubuntu
+
+MAINTAINER Luke Crooks ""luke@pumalo.org""
+
+# Update aptitude with new repo
+RUN apt-get update
+
+# Install software 
+RUN apt-get install -y git python-virtualenv
+
+# Make ssh dir
+RUN mkdir /root/.ssh/
+
+# Copy over private key, and set permissions
+ADD id_rsa /root/.ssh/id_rsa
+RUN chmod 700 /root/.ssh/id_rsa
+RUN chown -R root:root /root/.ssh
+
+# Create known_hosts
+RUN touch /root/.ssh/known_hosts
+
+# Remove host checking
+RUN echo ""Host bitbucket.org\n\tStrictHostKeyChecking no\n"" &gt;&gt; /root/.ssh/config
+
+# Clone the conf files into the docker container
+RUN git clone git@bitbucket.org:Pumalo/docker-conf.git /home/docker-conf
+</code></pre>
+
+<p>This gives me the error</p>
+
+<pre><code>Step 10 : RUN git clone git@bitbucket.org:Pumalo/docker-conf.git /home/docker-conf
+ ---&gt; Running in 0d244d812a54
+Cloning into '/home/docker-conf'...
+Warning: Permanently added 'bitbucket.org,131.103.20.167' (RSA) to the list of known hosts.
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+2014/04/30 16:07:28 The command [/bin/sh -c git clone git@bitbucket.org:Pumalo/docker-conf.git /home/docker-conf] returned a non-zero code: 128
+</code></pre>
+
+<p>This is my first time using dockerfiles, but from what I have read (and taken from working configs) I cannot see why this doesn't work.</p>
+
+<p>My id_rsa is in the same folder as my dockerfile and is a copy of my local key which can clone this repo no problem.</p>
+
+<p>Edit: </p>
+
+<p>In my dockerfile I can add:</p>
+
+<pre><code>RUN cat /root/.ssh/id_rsa
+</code></pre>
+
+<p>And it prints out the correct key, so I know its being copied correctly.</p>
+
+<p>I have also tried to do as noah advised and ran:</p>
+
+<pre><code>RUN echo ""Host bitbucket.org\n\tIdentityFile /root/.ssh/id_rsa\n\tStrictHostKeyChecking no"" &gt;&gt; /etc/ssh/ssh_config
+</code></pre>
+
+<p>This sadly also doesn't work.</p>
+","2508665","","2508665","","2019-08-01 06:44:44","2021-06-28 11:47:31","Clone private git repo with dockerfile","<git><bitbucket><docker>","10","0","150","","","CC BY-SA 3.0"
+"21928691","1","21928864","","2014-02-21 08:05:16","","309","262376","<p>Consider:</p>
+
+<pre><code>docker run -it centos /bin/bash
+</code></pre>
+
+<p>I pressed <kbd><strong>Ctrl</strong></kbd>+<kbd><strong>D</strong></kbd> to exit it.</p>
+
+<p>I want to continue to run this container, but I found I can't.</p>
+
+<p>The only method is</p>
+
+<pre><code>docker commit `docker ps -q -l` my_image
+docker run -it my_image /bin/bash
+</code></pre>
+
+<p>Am I right? Is there a better method? (I'm using docker 0.8.0.)</p>
+","730346","","63550","","2018-07-23 19:15:56","2021-06-18 19:44:50","How to continue a Docker container which has exited","<docker>","13","5","106","","","CC BY-SA 4.0"
+"25775266","1","25775424","","2014-09-10 21:18:39","","192","261406","<p>I've seen a bunch of tutorials that seem do the same thing I'm trying to do, but for some reason my Docker containers exit. Basically, I'm setting up a web-server and a few daemons inside a Docker container. I do the final parts of this through a bash script called <code>run-all.sh</code> that I run through CMD in my Dockerfile. <code>run-all.sh</code> looks like this:</p>
+
+<pre><code>service supervisor start
+service nginx start
+</code></pre>
+
+<p>And I start it inside of my Dockerfile as follows:</p>
+
+<pre><code>CMD [""sh"", ""/root/credentialize_and_run.sh""]
+</code></pre>
+
+<p>I can see that the services all start up correctly when I run things manually (i.e. getting on to the image with -i -t /bin/bash), and everything looks like it runs correctly when I run the image, but it exits once it finishes starting up my processes. I'd like the processes to run indefinitely, and as far as I understand, the container has to keep running for this to happen. Nevertheless, when I run <code>docker ps -a</code>, I see:</p>
+
+<pre><code>➜  docker_test  docker ps -a
+CONTAINER ID        IMAGE                            COMMAND                CREATED             STATUS                      PORTS               NAMES
+c7706edc4189        some_name/some_repo:blah   ""sh /root/run-all.sh   8 minutes ago       Exited (0) 8 minutes ago                        grave_jones
+</code></pre>
+
+<p>What gives? Why is it exiting? I know I could just put a while loop at the end of my bash script to keep it up, but what's the right way to keep it from exiting?</p>
+","392975","","4802075","","2018-04-19 19:13:07","2021-03-19 10:41:41","How to keep Docker container running after starting services?","<docker>","11","3","55","","","CC BY-SA 3.0"
+"28320134","1","39454426","","2015-02-04 11:22:46","","282","261404","<p>How can I list all tags of a Docker image on a remote Docker registry using the CLI (preferred) or curl?</p>
+
+<p>Preferably without pulling all versions from the remote registry. I just want to list the tags.</p>
+","398441","","63550","","2019-11-12 11:04:28","2021-02-07 07:41:21","How can I list all tags for a Docker image on a remote registry?","<docker>","20","3","85","","","CC BY-SA 4.0"
